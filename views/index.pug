@@ -1,0 +1,24 @@
+extends layout
+
+block content
+  form(method='POST', action='/')
+    h1 PromoHunter
+    table.center
+      tbody
+        tr
+          td
+            label Username:
+          td
+            input#username(type='text', onchange='check()', name='username', size='15', maxlength='30', placeholder='Username', required='')
+        tr
+          td
+            label Password:
+          td
+            input#password(type='password', onchange='check()', name='password', size='15', maxlength='30', placeholder='Password', required='')
+        tr
+          td(colspan='2')
+            label #{invalidLogin}
+        tr
+          td(colspan='2')
+            input.submitBtn(type='submit', value='Login')
+  script(src='/javascripts/index.js')

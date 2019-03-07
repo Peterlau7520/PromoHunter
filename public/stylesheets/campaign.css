@@ -1,0 +1,16 @@
+.popupform{
+	width: 60%;
+	height: 50%;
+	opacity: .75;
+	top: 25%;
+	left: 20%;
+	display: none;
+	position: fixed;
+	background-color: orange;
+	overflow: auto;
+}
+
+#map{
+	height: 300px;
+	width: 500px;
+}
