@@ -14,3 +14,11 @@
 	height: 300px;
 	width: 500px;
 }
+
+table, th, td{
+	border: 2px solid black;
+}
+
+table {
+  border-collapse: collapse;
+}

@@ -51,3 +51,15 @@ function show_campaign_form() {
 function hide_campaign_form() {
 	document.getElementById('campaignform').style.display = "none";
 }
+
+function show_coupon_form(campaignid) {
+	document.getElementById('couponform').style.display = "block";
+	document.getElementById("coupon_cancel_btn").addEventListener("click", function(e){
+		e.preventDefault();
+	});
+	document.getElementById('addcouponform').action = "/campaign/addcoupon/"+campaignid;
+}
+
+function hide_coupon_form() {
+	document.getElementById('couponform').style.display = "none";
+}

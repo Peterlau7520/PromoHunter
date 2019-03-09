@@ -19,8 +19,17 @@ block content
 			input(id='markerpos', name='location', type='text')
 			input(type='submit', value='Create')
 			button(id='cancel_btn', onclick='hide_campaign_form()') Cancel
+	div.popupform#couponform
+		form#addcouponform(method='POST', enctype='multipart/form-data')
+			label Picture: 
+			input(name='picture', type='file')
+			label Description:
+			input(name='description', type='text')
+			input(type='submit', value='Add')
+			button(id='coupon_cancel_btn', onclick='hide_coupon_form()') Cancel
 	table
 		tr
+			th Coupons
 			th Name
 			th Starting Date
 			th Ending Date
@@ -28,6 +37,8 @@ block content
 			th Coupon Limit
 		each campaign, c in campaigns
 			tr
+				td
+					button(onclick='show_coupon_form(\''+campaign._id+'\')') Add
 				td= campaign.campaignName
 				td= campaign.startingDate
 				td= campaign.endingDate

@@ -24,16 +24,25 @@ const merchantInfo = new Schema({
 	merchantName: String,
 	logo: String,
 	pictures: Array,
-	description: String
-
+	description: String,
+	location: type: {
+			type: String, // Don't do `{ location: { type: String } }`
+			enum: ['Point'], // 'location.type' must be 'Point'
+			required: true
+		},
+		coordinates: {
+			type: [Number],
+			required: true
+		}
 })
 
 const coupons = new Schema({
 	campaign: {type: Schema.Types.ObjectId.ref: 'Campaign'},
 	merchant: {type: Schema.Types.ObjectId.ref: 'Merchant'},
 	couponStatus: String, // used, saved, 
-	expiryDate: Date,
-
+	//expiryDate: Date, duplicate with ending date?
+	picture: String,
+	description: String
 })
 
 const campaign = new Schema({
