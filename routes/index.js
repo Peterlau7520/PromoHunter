@@ -1,7 +1,9 @@
 var express = require('express');
 var router = express.Router();
+var assert = require('assert');
 
 let Merchant = require('../models/merchant');
+let Campaign = require('../models/campaign');
 
 /* GET login page. */
 router.get('/', function(req, res, next) {
@@ -51,6 +53,35 @@ router.get('/insight', function(req, res){
 	}else{
 		res.redirect('/');
 	}
+});
+
+router.get('/geospatial', function(req, res){
+	res.render('geospatial_search');
+});
+
+router.post('/geospatial', function(req, res){
+	// request send a pair of coordinates
+	var subLocationStr = req.body.location.substring(1, req.body.location.length-1);
+	var coords = subLocationStr.split(", ");
+	Campaign.find({
+		location:{
+			$near:{
+				$geometry:{
+					type: 'Point',
+					coordinates: [Number(coords[1]), Number(coords[0])]
+				},
+				$maxDistance: 1000
+			}
+		}
+	}, function(err, result){
+		if(err){
+			console.log(err);
+			return;
+		}else{
+			console.log(result);
+		}
+	});
+	// response return a json of coordinates nearby
 });
 
 module.exports = router;

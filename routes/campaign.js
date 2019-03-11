@@ -86,7 +86,7 @@ router.post('/create', function(req, res){
 			merchant: req.session.userObjID,
 			location: {
 				type: 'Point',
-				coordinates: [Number(coords[0]), Number(coords[1])]
+				coordinates: [Number(coords[1]), Number(coords[0])]
 			}
 		});
 		newcampaign.save(function(err){
