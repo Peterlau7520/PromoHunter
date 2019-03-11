@@ -79,6 +79,7 @@ router.post('/geospatial', function(req, res){
 			return;
 		}else{
 			console.log(result);
+			return result;
 		}
 	});
 	// response return a json of coordinates nearby
