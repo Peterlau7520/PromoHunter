@@ -57,6 +57,7 @@ router.post('/addcoupon/:campaignid', function(req, res){
 						campaign: req.params.campaignid,
 						merchant: req.session.userObjID,
 						picture: req.file.path,
+						expiryDate: req.body.expirydate,
 						description: req.body.description
 					});
 					newcoupon.save(function(err){

@@ -41,6 +41,16 @@ const enddate_picker = datepicker('#enddate', {
 	}
 });
 
+const expirydate_picker = datepicker('#expirydate', {
+	formatter: (input, date, instance) => {
+		const value = date.toLocaleDateString();
+		input.value = value; // => '1/1/2099'
+	},
+	onSelect: (instance, date) => {
+		instance.value = date;
+	}
+});
+
 function show_campaign_form() {
 	document.getElementById('campaignform').style.display = "block";
 	document.getElementById("cancel_btn").addEventListener("click", function(e){

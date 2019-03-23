@@ -1,8 +1,33 @@
 doctype html
 html
-  head
-    title PromoHunter - Merchant Station
-    link(rel='stylesheet', href='/stylesheets/style.css')
-    block head
-  body
-    block content
+	head
+		meta(name='viewport', content='width=device-width, initial-scale=1.0')
+		title PromoHunter - Merchant Station
+		link(rel='stylesheet', href='/stylesheets/style.css')
+		link(href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet")
+		block head
+	body
+		.layout
+			.navigationbar
+				.logo
+					img#logoimg(src='../images/PromoHunter-LOGO.png')
+					h3 PromoHunter
+				.nav
+					ul
+						li.sub#firstsub MAIN
+							ul
+								li Home
+								li Message
+						li.sub APPS
+							ul
+								li Charts
+								li Forms
+								li Layout
+						li.sub EXTRAS
+							ul
+								li Timer
+								li Users
+			.content-container
+				.headerbar
+				.main
+					block content

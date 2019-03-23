@@ -1,8 +1,105 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+html, body{
+	height: 100%;
 }
 
-a {
-  color: #00B7FF;
+html, body, h1, h3{
+	margin: 0px;
+	padding: 0px;
+}
+
+a{
+	color: #00B7FF;
+}
+
+ul{
+	padding-top: 10%;
+	padding-bottom: 10%;
+}
+
+li{
+	display: block;
+	padding-top: 5%;
+	padding-bottom: 5%;
+}
+
+*{
+	font-family: 'Roboto', sans-serif;
+}
+
+.layout{
+	width: 100%;
+	height: 100%;
+	margin: 0px;
+	padding: 0px;
+}
+
+.navigationbar{
+	display: inline-block;
+	width: 18%;
+	height: 100%;
+	vertical-align: top;
+	background-color: white;
+}
+
+.logo{
+	height: 8%;
+	padding: 0px;
+	margin: 0px;
+	text-align: center;
+	background-color: #f7aa5c;
+	-webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+	-moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+	box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+}
+
+.nav{
+	height: auto;
+	padding: 0px;
+	margin: 0px;
+}
+
+.content-container{
+	display: inline-block;
+	width: 82%;
+	height: 100%;
+	vertical-align: top;
+	background-color: #e5e5e5;
+	-webkit-box-shadow: inset 5px 0 9px -7px rgba(0,0,0,0.75);
+	-moz-box-shadow: inset 5px 0 9px -7px rgba(0,0,0,0.75);
+	box-shadow: inset 5px 0 9px -7px rgba(0,0,0,0.75);
+}
+
+.headerbar{
+	height: 8%;
+	padding: 0px;
+	margin: 0px;
+	background-color: #ffd8bb;
+	-webkit-box-shadow: inset 5px 0 9px -7px rgba(0,0,0,0.75), 0 3px 9px -7px rgba(0,0,0,0.75);
+	-moz-box-shadow: inset 5px 0 9px -7px rgba(0,0,0,0.75), 0 3px 9px -7px rgba(0,0,0,0.75);
+	box-shadow: inset 5px 0 9px -7px rgba(0,0,0,0.75), 0 3px 9px -7px rgba(0,0,0,0.75);
+}
+
+.main{
+	padding: 5%;
+	height: auto;
+}
+
+.logo img{
+	height: 80%;
+	width: auto;
+}
+
+.logo img, .logo h3{
+	display: inline-block;
+	vertical-align: middle;
+	padding-top: 2%;
+	color: white;
+}
+
+#firstsub{
+	padding-top: 0px !important;
+}
+
+.sub{
+	padding-top: 10% !important;
 }

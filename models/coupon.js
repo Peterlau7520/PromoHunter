@@ -9,6 +9,7 @@ let couponSchema = mongoose.Schema({
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'Merchant'
 	},
+	expiryDate: Date,
 	picture: String,
 	description: String
 });

@@ -16,6 +16,7 @@ const merchantSchema = new Schema({
 	username: String,
 	password: String,
 	merchantName: String,
+	//campaignLimit: Integer
 	campaign: [{type: Schema.Types.ObjectId.ref: 'Campaign'}] 
 })
 
@@ -34,6 +35,8 @@ const merchantInfo = new Schema({
 			type: [Number],
 			required: true
 		}
+	// location shd be stored at merchantInfo as store location then apply when chosen from campaign, or
+	// lcoation shd be stored at campaign?
 })
 
 const coupons = new Schema({
