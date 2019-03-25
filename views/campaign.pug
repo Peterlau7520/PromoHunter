@@ -46,6 +46,8 @@ block content
 				td= campaign.endingDate
 				td= campaign.location.coordinates
 				td= campaign.couponLimit
+
+block js
 	script(src="https://unpkg.com/js-datepicker")
 	script(src='https://maps.googleapis.com/maps/api/js?key=AIzaSyBjLzcJetGHFSzSzcI6ivDy9zJSz734Ong&callback=initMap', async='', defer='')
 	script(src='/javascripts/campaign.js')

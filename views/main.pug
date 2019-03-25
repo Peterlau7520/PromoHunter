@@ -1,12 +1,11 @@
 extends layout
 
+block head
+	link(rel='stylesheet', href='/stylesheets/main.css')
+
 block content
-  h1= "Hi, "+session.user
-  h1 
-    a(href='/account') Account Information
-  h1
-    a(href='/campaign') Campaign
-  h1
-    a(href='/insight') Insight
-  h1
-    a(href='/logout') Logout
+	.grid-container
+		
+
+block js
+	script(src='/javascripts/main.js')

@@ -2,13 +2,9 @@ html, body{
 	height: 100%;
 }
 
-html, body, h1, h3{
+html, body, h1, h3, ul{
 	margin: 0px;
 	padding: 0px;
-}
-
-a{
-	color: #00B7FF;
 }
 
 ul{
@@ -20,10 +16,34 @@ li{
 	display: block;
 	padding-top: 5%;
 	padding-bottom: 5%;
+	padding-left: 15%;
 }
 
 *{
 	font-family: 'Roboto', sans-serif;
+}
+
+ul a{
+	display: block;
+	text-decoration: none;
+	color: black;
+}
+
+a li:hover{
+	background-color: #fef2e8;
+}
+
+a li img{
+	display: inline;
+	height: 20px;
+	width: auto;
+	padding-left: 5%;
+	padding-right: 10%;
+	vertical-align: middle;
+}
+
+a li span{
+	vertical-align: middle;
 }
 
 .layout{
@@ -74,14 +94,19 @@ li{
 	padding: 0px;
 	margin: 0px;
 	background-color: #ffd8bb;
+	text-align: right;
 	-webkit-box-shadow: inset 5px 0 9px -7px rgba(0,0,0,0.75), 0 3px 9px -7px rgba(0,0,0,0.75);
 	-moz-box-shadow: inset 5px 0 9px -7px rgba(0,0,0,0.75), 0 3px 9px -7px rgba(0,0,0,0.75);
 	box-shadow: inset 5px 0 9px -7px rgba(0,0,0,0.75), 0 3px 9px -7px rgba(0,0,0,0.75);
 }
 
 .main{
-	padding: 5%;
-	height: auto;
+	padding: 40px;
+	top: 8%;
+	position: absolute;
+	bottom: 0;
+	left: 18%;
+	right: 0;
 }
 
 .logo img{
@@ -97,9 +122,37 @@ li{
 }
 
 #firstsub{
-	padding-top: 0px !important;
+	padding-top: 3% !important;
+	padding-bottom: 7%;
 }
 
 .sub{
-	padding-top: 10% !important;
+	padding-top: 8% !important;
+	padding-bottom: 7%;
+}
+
+#search{
+	display: inline-block;
+	width: 15%;
+	height: 35%;
+	border: none;
+	border-radius: 10px;
+	margin-top: 18px;
+	margin-right: 60px;
+	background-image: url('../images/search.png');
+	background-repeat: no-repeat;
+	background-size: 13px;
+	background-position: 95% 50%;
+	text-indent: 5%;
+}
+
+#search:focus{
+	background-image: none;
+	outline: none;
+}
+
+.headerbar span{
+	display: inline-block;
+	vertical-align: middle;
+	margin-right: 50px;
 }
