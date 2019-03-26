@@ -4,7 +4,9 @@ html
 		meta(name='viewport', content='width=device-width, initial-scale=1.0')
 		title PromoHunter - Merchant Station
 		link(rel='stylesheet', href='/stylesheets/style.css')
+		link(rel='stylesheet', href='/stylesheets/bootstrap-iso.css')
 		link(href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet")
+		link(href="https://fonts.googleapis.com/css?family=Poppins:400,700", rel="stylesheet")
 		block head
 	body
 		.layout
@@ -52,8 +54,8 @@ html
 			.content-container
 				.headerbar
 					input#search(type='text')
-					span= session.user
-				.main
+					span= "Hi, "+session.user
+				.main.bootstrap-iso
 					block content
 		script(src='/javascripts/jquery-3.3.1.min.js')
 		block js

@@ -10,5 +10,6 @@ block content
 			label Location: 
 			input(id='markerpos', name='location', type='text')
 			input(type='submit', value='Create')
+block js
 	script(src='https://maps.googleapis.com/maps/api/js?key=AIzaSyBjLzcJetGHFSzSzcI6ivDy9zJSz734Ong&callback=initMap', async='', defer='')
 	script(src='/javascripts/geospatial_search.js')

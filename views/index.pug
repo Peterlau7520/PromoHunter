@@ -3,27 +3,23 @@ html
   head
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
     title PromoHunter - Merchant Station
-    link(rel='stylesheet', href='/stylesheets/style.css')
-    link(href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet")
+    link(rel='stylesheet', href='/stylesheets/index.css')
+    link(href="https://fonts.googleapis.com/css?family=Poppins:400,700", rel="stylesheet")
   body
-    form(method='POST', action='/')
-      h1 PromoHunter
-      table.center
-        tbody
-          tr
-            td
-              label Username:
-            td
-              input#username(type='text', onchange='check()', name='username', size='15', maxlength='30', placeholder='Username', required='')
-          tr
-            td
-              label Password:
-            td
-              input#password(type='password', onchange='check()', name='password', size='15', maxlength='30', placeholder='Password', required='')
-          tr
-            td(colspan='2')
-              label #{invalidLogin}
-          tr
-            td(colspan='2')
-              input.submitBtn(type='submit', value='Login')
+    .container
+      form(method='POST', action='/')
+        h1 Welcome
+        .center
+          img(src='/images/PromoHunter-LOGO.png')
+        .center
+          input.input#username(type='text', onchange='check()', name='username', size='15', maxlength='30', required)
+          label(for='username') Username
+          input.input#password(type='password', onchange='check()', name='password', size='15', maxlength='30', required)
+          label(for='password') Password
+          span.invalid #{invalidLogin}
+        .center
+          input.submitBtn(type='submit', value='Login')
+        .center.bottom
+          span Don't have a merchant account? 
+          a(href='') Contact US
     script(src='/javascripts/index.js')
