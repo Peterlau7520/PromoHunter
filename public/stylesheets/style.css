@@ -54,7 +54,7 @@ a li span{
 
 .navigationbar{
 	display: inline-block;
-	width: 18%;
+	width: 20%;
 	height: 100%;
 	vertical-align: top;
 	background-color: white;
@@ -79,7 +79,7 @@ a li span{
 
 .content-container{
 	display: inline-block;
-	width: 82%;
+	width: 80%;
 	height: 100%;
 	vertical-align: top;
 	background-color: #e5e5e5;
