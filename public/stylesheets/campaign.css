@@ -1,3 +1,9 @@
+table, .card-body{
+	padding: 0 !important;
+	margin: 0;
+	font-size: 14px;
+}
+
 .popupform{
 	width: 60%;
 	height: 50%;
@@ -15,10 +21,45 @@
 	width: 500px;
 }
 
-table, th, td{
-	border: 2px solid black;
+.card-header{
+	background: #fbd686;
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
 }
 
-table {
-  border-collapse: collapse;
+.card-body{
+	background: white;
+	padding: 2%;
+	border-bottom-left-radius: 10px;
+	border-bottom-right-radius: 10px;
+	height: 92%;
+}
+
+.card{
+	height: 100%;
+}
+
+a.nav-link{
+	color: black;
+}
+
+a.nav-link:hover{
+	color: black;
+	background-color: #ffd8bb !important;
+	border-color: #ffd8bb !important;
+}
+
+a.nav-link:focus, a.nav-link:active{
+	color: black;
+	background-color: #fcc348 !important;
+	border-color: #fcc348 !important;
+}
+
+#campaignbtntab{
+	padding-left: 65%;
+}
+
+#newcampaignbtn{
+	display: inline-block;
+	margin-top: 8%;
 }

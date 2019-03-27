@@ -5,47 +5,63 @@ block head
 	link(rel="stylesheet", href="https://unpkg.com/js-datepicker/dist/datepicker.min.css")
 
 block content
-	button(onclick='show_campaign_form()') New Campaign
-	div.popupform#campaignform
-		form(method='POST', action='/campaign/create')
-			label Campaign name: 
-			input(name='campaignname', type='text')
-			label Starting date: 
-			input(id='startdate', name='startdate', type='text')
-			label Ending date: 
-			input(id='enddate', name='enddate', type='text')
-			div#map
-			label Location: 
-			input(id='markerpos', name='location', type='text')
-			input(type='submit', value='Create')
-			button(id='cancel_btn', onclick='hide_campaign_form()') Cancel
-	div.popupform#couponform
-		form#addcouponform(method='POST', enctype='multipart/form-data')
-			label Picture: 
-			input(name='picture', type='file')
-			label Expiry date: 
-			input(id='expirydate', name='expirydate', type='text')
-			label Description:
-			input(name='description', type='text')
-			input(type='submit', value='Add')
-			button(id='coupon_cancel_btn', onclick='hide_coupon_form()') Cancel
-	table
-		tr
-			th Coupons
-			th Name
-			th Starting Date
-			th Ending Date
-			th Location
-			th Coupon Limit
-		each campaign, c in campaigns
-			tr
-				td
-					button(onclick='show_coupon_form(\''+campaign._id+'\')') Add
-				td= campaign.campaignName
-				td= campaign.startingDate
-				td= campaign.endingDate
-				td= campaign.location.coordinates
-				td= campaign.couponLimit
+	.card.text-center
+		.card-header
+			ul.nav.nav-tabs.card-header-tabs
+				li.nav-item
+					a.nav-link(href='#') Past
+				li.nav-item
+					a.nav-link.active(href='#') Current
+				li.nav-item
+					a.nav-link(href='#') Upcoming
+				li#campaignbtntab
+					button#newcampaignbtn(onclick='show_campaign_form()') New Campaign
+		.card-body
+			#past
+			#current
+				table.table.table-hover
+					thead
+						tr
+							th Coupons
+							th Name
+							th Starting Date
+							th Ending Date
+							th Location
+							th Coupon Limit
+					tbody
+					each campaign, c in campaigns
+						tr
+							td
+								button(onclick='show_coupon_form(\''+campaign._id+'\')') Add
+							td= campaign.campaignName
+							td= campaign.startingDate
+							td= campaign.endingDate
+							td= campaign.location.coordinates
+							td= campaign.couponLimit
+			#upcoming
+			div.popupform#campaignform
+				form(method='POST', action='/campaign/create')
+					label Campaign name: 
+					input(name='campaignname', type='text')
+					label Starting date: 
+					input(id='startdate', name='startdate', type='text')
+					label Ending date: 
+					input(id='enddate', name='enddate', type='text')
+					div#map
+					label Location: 
+					input(id='markerpos', name='location', type='text')
+					input(type='submit', value='Create')
+					button(id='cancel_btn', onclick='hide_campaign_form()') Cancel
+			div.popupform#couponform
+				form#addcouponform(method='POST', enctype='multipart/form-data')
+					label Picture: 
+					input(name='picture', type='file')
+					label Expiry date: 
+					input(id='expirydate', name='expirydate', type='text')
+					label Description:
+					input(name='description', type='text')
+					input(type='submit', value='Add')
+					button(id='coupon_cancel_btn', onclick='hide_coupon_form()') Cancel
 
 block js
 	script(src="https://unpkg.com/js-datepicker")

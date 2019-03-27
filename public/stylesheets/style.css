@@ -7,32 +7,32 @@ html, body, h1, h3, ul{
 	padding: 0px;
 }
 
-ul{
+.nav ul{
 	padding-top: 10%;
 }
 
-li{
+.nav ul li{
 	display: block;
 	padding-top: 5%;
 	padding-bottom: 5%;
-	padding-left: 15%;
+	padding-left: 10%;
 }
 
 *{
 	font-family: 'Roberto', sans-serif;
 }
 
-ul a{
+.nav ul a{
 	display: block;
 	text-decoration: none;
 	color: black;
 }
 
-a li:hover{
+.nav ul a li:hover{
 	background-color: #fef2e8;
 }
 
-a li img{
+.nav ul a li img{
 	display: inline;
 	height: 20px;
 	width: auto;
@@ -41,7 +41,7 @@ a li img{
 	vertical-align: middle;
 }
 
-a li span{
+.nav ul a li span{
 	vertical-align: middle;
 }
 
@@ -104,7 +104,7 @@ a li span{
 	top: 8%;
 	position: absolute;
 	bottom: 0;
-	left: 18%;
+	left: 20%;
 	right: 0;
 }
 
