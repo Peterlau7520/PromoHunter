@@ -85,4 +85,8 @@ router.post('/geospatial', function(req, res){
 	// response return a json of coordinates nearby
 });
 
+router.get('/:userid/:couponid', function(req, res){
+	res.render('index');
+});
+
 module.exports = router;
