@@ -1,0 +1,22 @@
+html, body{
+	height: 100%;
+	width: 100%;
+	padding: 0;
+	margin: 0;
+}
+
+img{
+	width: auto;
+	height: 150px;
+	margin-top: 50%;
+}
+
+.center{
+	display: block;
+	text-align: center;
+	padding: 20px;
+}
+
+*{
+	font-family: 'Poppins', sans-serif;
+}

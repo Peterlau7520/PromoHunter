@@ -3,5 +3,10 @@ html
 	head
 		meta(name='viewport', content='width=device-width, initial-scale=1.0')
 		title PromoHunter - Merchant Station
+		link(rel='stylesheet', type='text/css', href='/stylesheets/couponqr.css')
+		link(href="https://fonts.googleapis.com/css?family=Poppins:400,700", rel="stylesheet")
 	body
-		p #{error.stack}
+		.center
+			img(src='/images/PromoHunter-LOGO.png')
+		.center
+			h1 #{msg}
