@@ -107,20 +107,34 @@ router.post('/savecoupon/:userid/:couponid', function(req, res){
 router.get('/couponQR/:userid/:couponid', function(req, res){
 	userid = req.params.userid;
 	couponid = req.params.couponid;
-	User.findOneAndUpdate({
-		_id: userid
-	}, {
-		$push: {
-			redeemedCoupons: couponid
-		},
-		$pull: {
-			savedCoupons: couponid
-		}
-	}, function(err, result){
+	User.find({
+		_id: userid,
+		savedCoupons: couponid
+	}, function(err, result, next){
 		if(err){
-			res.send("Failed to redeem");
+			res.render('couponqr', {msg: "Failed to redeem"});
 		}else{
-			res.send("Redeemed successfully")
+			if(result == ""){
+				res.render('couponqr', {msg: "Failed to redeem"});
+			}else{
+				User.findOneAndUpdate({
+					_id: userid,
+					savedCoupons: couponid
+				}, {
+					$push: {
+						redeemedCoupons: couponid
+					},
+					$pull: {
+						savedCoupons: couponid
+					}
+				}, function(err, result){
+					if(err){
+						res.render('couponqr', {msg: "Failed to redeem"});
+					}else{
+						res.render('couponqr', {msg: "Redeemed successfully"});
+					}
+				});
+			}
 		}
 	});
 });
