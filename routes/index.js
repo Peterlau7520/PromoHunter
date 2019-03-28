@@ -4,6 +4,7 @@ var assert = require('assert');
 
 let Merchant = require('../models/merchant');
 let Campaign = require('../models/campaign');
+let User = require('../models/user');
 
 /* GET login page. */
 router.get('/', function(req, res, next) {
@@ -85,8 +86,43 @@ router.post('/geospatial', function(req, res){
 	// response return a json of coordinates nearby
 });
 
-router.get('/:userid/:couponid', function(req, res){
-	res.render('index');
+router.post('/savecoupon/:userid/:couponid', function(req, res){
+	userid = req.params.userid;
+	couponid = req.params.couponid;
+	User.findOneAndUpdate({
+		_id: userid
+	}, {
+		$push: {
+			savedCoupons: couponid
+		}
+	}, function(err, result){
+		if(err){
+			return "Failed to save";
+		}else{
+			return "Saved successfully";
+		}
+	});
+});
+
+router.get('/couponQR/:userid/:couponid', function(req, res){
+	userid = req.params.userid;
+	couponid = req.params.couponid;
+	User.findOneAndUpdate({
+		_id: userid
+	}, {
+		$push: {
+			redeemedCoupons: couponid
+		},
+		$pull: {
+			savedCoupons: couponid
+		}
+	}, function(err, result){
+		if(err){
+			res.send("Failed to redeem");
+		}else{
+			res.send("Redeemed successfully")
+		}
+	});
 });
 
 module.exports = router;

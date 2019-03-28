@@ -8,7 +8,8 @@ const userSchema = new Schema({
 	birthday: Date,
 	gender: String,
 	name: String, 
-	coupons: [{type: Schema.Types.ObjectId.ref: 'Coupon'}]
+	savedCoupons: [{type: Schema.Types.ObjectId.ref: 'Coupon'}],
+	redeemedCoupons: [{type: Schema.Types.ObjectId.ref: 'Coupon'}]
 })
 
 
