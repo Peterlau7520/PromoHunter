@@ -86,7 +86,7 @@ router.post('/geospatial', function(req, res){
 	// response return a json of coordinates nearby
 });
 
-router.post('/savecoupon/:userid/:couponid', function(req, res){
+router.get('/savecoupon/:userid/:couponid', function(req, res){
 	userid = req.params.userid;
 	couponid = req.params.couponid;
 	User.findOneAndUpdate({
@@ -97,9 +97,9 @@ router.post('/savecoupon/:userid/:couponid', function(req, res){
 		}
 	}, function(err, result){
 		if(err){
-			return "Failed to save";
+			res.render('couponqr', {msg: "Failed to save"});
 		}else{
-			return "Saved successfully";
+			res.render('couponqr', {msg: "Save successfully"});
 		}
 	});
 });
