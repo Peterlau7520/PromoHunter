@@ -9,61 +9,85 @@ block content
 		.card-header
 			ul.nav.nav-tabs.card-header-tabs
 				li.nav-item
-					a.nav-link(href='#') Past
+					a.nav-link(onclick="tabnav(event, 'past')") Past
 				li.nav-item
-					a.nav-link.active(href='#') Current
+					a.nav-link.active(onclick="tabnav(event, 'current')") Current
 				li.nav-item
-					a.nav-link(href='#') Upcoming
+					a.nav-link(onclick="tabnav(event, 'upcoming')") Upcoming
 				li#campaignbtntab
 					button#newcampaignbtn(onclick='show_campaign_form()') New Campaign
-		.card-body
-			#past
-			#current
-				table.table.table-hover
-					thead
-						tr
-							th Coupons
-							th Name
-							th Starting Date
-							th Ending Date
-							th Location
-							th Coupon Limit
-					tbody
-					each campaign, c in campaigns
-						tr
-							td
-								button(onclick='show_coupon_form(\''+campaign._id+'\')') Add
-							td= campaign.campaignName
-							td= campaign.startingDate
-							td= campaign.endingDate
-							td= campaign.location.coordinates
-							td= campaign.couponLimit
-			#upcoming
-			div.popupform#campaignform
-				form(method='POST', action='/campaign/create')
-					label Campaign name: 
-					input(name='campaignname', type='text')
-					label Starting date: 
-					input(id='startdate', name='startdate', type='text')
-					label Ending date: 
-					input(id='enddate', name='enddate', type='text')
-					div#map
-					label Location: 
-					input(id='markerpos', name='location', type='text')
-					input(type='submit', value='Create')
-					button(id='cancel_btn', onclick='hide_campaign_form()') Cancel
-			div.popupform#couponform
-				form#addcouponform(method='POST', enctype='multipart/form-data')
-					label Picture: 
-					input(name='picture', type='file')
-					label Expiry date: 
-					input(id='expirydate', name='expirydate', type='text')
-					label Description:
-					input(name='description', type='text')
-					input(type='submit', value='Add')
-					button(id='coupon_cancel_btn', onclick='hide_coupon_form()') Cancel
+		.card-body#past.tabcontent
+			table.table.table-hover
+				thead
+					tr
+						th Coupons
+						th Name
+						th Starting Date
+						th Ending Date
+						th Location
+						th Coupon Limit
+				tbody
+		.card-body#current.tabcontent
+			table.table.table-hover
+				thead
+					tr
+						th Coupons
+						th Name
+						th Starting Date
+						th Ending Date
+						th Location
+						th Coupon Limit
+				tbody
+				each campaign, c in campaigns
+					tr
+						td
+							button(onclick='show_coupon_form(\''+campaign._id+'\')') Add
+						td= campaign.campaignName
+						- var startingDate = JSON.stringify(campaign.startingDate);
+						- var startingDateStr = startingDate.substring(1, 11);
+						td= startingDateStr
+						- var endingDate = JSON.stringify(campaign.endingDate);
+						- var endingDateStr = endingDate.substring(1, 11);
+						td= endingDateStr
+						td= campaign.address
+						td= campaign.couponLimit
+		.card-body#upcoming.tabcontent
+			table.table.table-hover
+				thead
+					tr
+						th Coupons
+						th Name
+						th Starting Date
+						th Ending Date
+						th Location
+						th Coupon Limit
+				tbody
+	.popupform#campaignform
+		form(method='POST', action='/campaign/create')
+			label Campaign name: 
+			input(name='campaignname', type='text')
+			label Starting date: 
+			input(id='startdate', name='startdate', type='text')
+			label Ending date: 
+			input(id='enddate', name='enddate', type='text')
+			div#map
+			label Location:
+			input(id='markerpos', name='location', type='text')
+			input(id='address', name='address', type='text')
+			input(type='submit', value='Create')
+			button(id='cancel_btn', onclick='hide_campaign_form()') Cancel
+	.popupform#couponform
+		form#addcouponform(method='POST', enctype='multipart/form-data')
+			label Picture: 
+			input(name='picture', type='file')
+			label Expiry date: 
+			input(id='expirydate', name='expirydate', type='text')
+			label Description:
+			input(name='description', type='text')
+			input(type='submit', value='Add')
+			button(id='coupon_cancel_btn', onclick='hide_coupon_form()') Cancel
 
 block js
 	script(src="https://unpkg.com/js-datepicker")
-	script(src='https://maps.googleapis.com/maps/api/js?key=AIzaSyBjLzcJetGHFSzSzcI6ivDy9zJSz734Ong&callback=initMap', async='', defer='')
+	script(src='https://maps.googleapis.com/maps/api/js?key=AIzaSyBjLzcJetGHFSzSzcI6ivDy9zJSz734Ong&language=en&callback=initMap', async='', defer='')
 	script(src='/javascripts/campaign.js')

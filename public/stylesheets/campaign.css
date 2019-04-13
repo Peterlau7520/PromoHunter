@@ -49,17 +49,33 @@ a.nav-link:hover{
 	border-color: #ffd8bb !important;
 }
 
-a.nav-link:focus, a.nav-link:active{
+.active{
 	color: black;
 	background-color: #fcc348 !important;
 	border-color: #fcc348 !important;
 }
 
 #campaignbtntab{
-	padding-left: 65%;
+	padding-left: 60%;
 }
 
 #newcampaignbtn{
 	display: inline-block;
 	margin-top: 8%;
+}
+
+th{
+	text-align: center !important;
+}
+
+#markerpos{
+	display: none;
+}
+
+.tabcontent{
+	display: none;
+}
+
+#current{
+	display: block;
 }

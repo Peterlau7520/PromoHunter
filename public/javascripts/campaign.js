@@ -10,6 +10,7 @@ function initMap(position) {
 		disableDefaultUI: true
 	});
 	
+	var geocoder = new google.maps.Geocoder;
 	var marker = new google.maps.Marker({
         position: latlng,
         map: map,
@@ -19,8 +20,37 @@ function initMap(position) {
 	marker.addListener('dragend', function(){
 		document.getElementById('markerpos').value = marker.getPosition();
 		map.setCenter(marker.getPosition());
-		map.setZoom(15);
+		geocoder.geocode({'location': marker.getPosition()}, function(result, status){
+			if(status === 'OK'){
+				if(result[0]){
+					document.getElementById('address').value = result[0].formatted_address;
+				}
+			}
+		});
 	});
+}
+
+function show_campaign_form() {
+	document.getElementById('campaignform').style.display = "block";
+	document.getElementById("cancel_btn").addEventListener("click", function(e){
+		e.preventDefault();
+	});
+}
+
+function hide_campaign_form() {
+	document.getElementById('campaignform').style.display = "none";
+}
+
+function show_coupon_form(campaignid) {
+	document.getElementById('couponform').style.display = "block";
+	document.getElementById("coupon_cancel_btn").addEventListener("click", function(e){
+		e.preventDefault();
+	});
+	document.getElementById('addcouponform').action = "/campaign/addcoupon/"+campaignid;
+}
+
+function hide_coupon_form() {
+	document.getElementById('couponform').style.display = "none";
 }
 
 const startdate_picker = datepicker('#startdate', {
@@ -53,25 +83,15 @@ const expirydate_picker = datepicker('#expirydate', {
 	}
 });
 
-function show_campaign_form() {
-	document.getElementById('campaignform').style.display = "block";
-	document.getElementById("cancel_btn").addEventListener("click", function(e){
-		e.preventDefault();
-	});
-}
-
-function hide_campaign_form() {
-	document.getElementById('campaignform').style.display = "none";
-}
-
-function show_coupon_form(campaignid) {
-	document.getElementById('couponform').style.display = "block";
-	document.getElementById("coupon_cancel_btn").addEventListener("click", function(e){
-		e.preventDefault();
-	});
-	document.getElementById('addcouponform').action = "/campaign/addcoupon/"+campaignid;
-}
-
-function hide_coupon_form() {
-	document.getElementById('couponform').style.display = "none";
+function tabnav(e, tab){
+	var tabs = document.getElementsByClassName("tabcontent");
+	for(var i=0; i<tabs.length; i++){
+		tabs[i].style.display = "none";
+	}
+	var navs = document.getElementsByClassName("nav-link");
+	for(var i=0; i<navs.length; i++){
+		navs[i].classList.remove("active");
+	}
+	document.getElementById(tab).style.display = "block";
+	e.currentTarget.classList.add("active");
 }

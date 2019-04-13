@@ -88,7 +88,8 @@ router.post('/create', function(req, res){
 			location: {
 				type: 'Point',
 				coordinates: [Number(coords[1]), Number(coords[0])]
-			}
+			},
+			address: req.body.address
 		});
 		newcampaign.save(function(err){
 			if(err){

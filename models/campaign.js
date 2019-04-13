@@ -22,7 +22,8 @@ let campaignSchema = mongoose.Schema({
 			type: [Number],
 			required: true
 		}
-	}
+	},
+	address: String
 });
 
 let Campaign = module.exports = mongoose.model('Campaign', campaignSchema, 'Campaign')
