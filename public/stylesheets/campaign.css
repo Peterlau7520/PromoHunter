@@ -13,9 +13,8 @@ table, .card-body{
 	display: none;
 	position: fixed;
 	background-color: #fde8a0;
-	overflow: auto;
 	border-radius: 20px;
-	overflow: inherit;
+	overflow: initial;
 }
 
 .center{

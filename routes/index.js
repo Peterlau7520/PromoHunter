@@ -4,6 +4,7 @@ var assert = require('assert');
 
 let Merchant = require('../models/merchant');
 let Campaign = require('../models/campaign');
+let Coupon = require('../models/coupon');
 let User = require('../models/user');
 
 /* GET login page. */
@@ -84,6 +85,19 @@ router.post('/geospatial', function(req, res){
 		}
 	});
 	// response return a json of coordinates nearby
+});
+
+router.get('/coupon', function(req, res){
+	merchantid = req.session.userObjID;
+	Coupon.find({
+		merchant: merchantid
+	}, function(err, result){
+		if(err){
+			console.log(err);
+		}else{
+			res.render('coupon', {coupons: result});
+		}
+	});
 });
 
 router.get('/savecoupon/:userid/:couponid', function(req, res){

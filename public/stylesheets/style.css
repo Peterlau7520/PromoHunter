@@ -106,6 +106,7 @@ html, body, h1, h3, ul{
 	bottom: 0;
 	left: 20%;
 	right: 0;
+	overflow: auto;
 }
 
 .logo img{

@@ -1,0 +1,18 @@
+extends layout
+
+block head
+	link(rel='stylesheet' , href='stylesheets/coupon.css')
+
+block content
+	.card-deck
+		for coupon, c in coupons
+			.card.col-md-4
+				img.card-img-top(src='https://promohunter-merchantstation.herokuapp.com/'+coupon.picture)
+				.card-body
+					h5.card-title= coupon.campaign
+					p.card-text= coupon.description
+				.card-footer
+					small.text-muted= coupon.expiryDate
+
+block js
+	
