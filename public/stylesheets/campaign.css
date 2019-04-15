@@ -110,6 +110,11 @@ a.nav-link:hover{
 	background: white;
 }
 
+#newcampaignbtn:focus, #newcampaignbtn:active{
+	border: none;
+	outline: none;
+}
+
 th{
 	text-align: center !important;
 }
