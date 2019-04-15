@@ -5,7 +5,7 @@ block head
 	link(rel="stylesheet", href="https://unpkg.com/js-datepicker/dist/datepicker.min.css")
 
 block content
-	.card.text-center
+	.card.text-center#frame
 		.card-header
 			ul.nav.nav-tabs.card-header-tabs
 				li.nav-item
@@ -15,7 +15,7 @@ block content
 				li.nav-item
 					a.nav-link(onclick="tabnav(event, 'upcoming')") Upcoming
 				li#campaignbtntab
-					button#newcampaignbtn(onclick='show_campaign_form()') New Campaign
+					button#newcampaignbtn(onclick='show_campaign_form()') + New Campaign
 		.card-body#past.tabcontent
 			table.table.table-hover
 				thead
@@ -27,6 +27,20 @@ block content
 						th Location
 						th Coupon Limit
 				tbody
+				each pcampaign, p in past
+					tr
+						td
+							img.opsbtn.pointer(src='/images/view.png')
+							span &nbsp
+						td= pcampaign.campaignName
+						- var startingDate = JSON.stringify(pcampaign.startingDate);
+						- var startingDateStr = startingDate.substring(1, 11);
+						td= startingDateStr
+						- var endingDate = JSON.stringify(pcampaign.endingDate);
+						- var endingDateStr = endingDate.substring(1, 11);
+						td= endingDateStr
+						td= pcampaign.address
+						td= pcampaign.couponLimit
 		.card-body#current.tabcontent
 			table.table.table-hover
 				thead
@@ -38,19 +52,24 @@ block content
 						th Location
 						th Coupon Limit
 				tbody
-				each campaign, c in campaigns
+				each ccampaign, c in current
 					tr
 						td
-							button(onclick='show_coupon_form(\''+campaign._id+'\')') Add
-						td= campaign.campaignName
-						- var startingDate = JSON.stringify(campaign.startingDate);
+							img.opsbtn.pointer(src='/images/add.png', onclick='show_coupon_form(\''+ccampaign._id+'\')')
+							span &nbsp
+							img.opsbtn.pointer(src='/images/delete.png')
+							span &nbsp
+							img.opsbtn.pointer(src='/images/view.png')
+							span &nbsp
+						td= ccampaign.campaignName
+						- var startingDate = JSON.stringify(ccampaign.startingDate);
 						- var startingDateStr = startingDate.substring(1, 11);
 						td= startingDateStr
-						- var endingDate = JSON.stringify(campaign.endingDate);
+						- var endingDate = JSON.stringify(ccampaign.endingDate);
 						- var endingDateStr = endingDate.substring(1, 11);
 						td= endingDateStr
-						td= campaign.address
-						td= campaign.couponLimit
+						td= ccampaign.address
+						td= ccampaign.couponLimit
 		.card-body#upcoming.tabcontent
 			table.table.table-hover
 				thead
@@ -62,22 +81,47 @@ block content
 						th Location
 						th Coupon Limit
 				tbody
-	.popupform#campaignform
+				each ucampaign, u in upcoming
+					tr
+						td
+							img.opsbtn.pointer(src='/images/add.png', onclick='show_coupon_form(\''+ucampaign._id+'\')')
+							span &nbsp
+							img.opsbtn.pointer(src='/images/delete.png')
+							span &nbsp
+							img.opsbtn.pointer(src='/images/view.png')
+							span &nbsp
+						td= ucampaign.campaignName
+						- var startingDate = JSON.stringify(ucampaign.startingDate);
+						- var startingDateStr = startingDate.substring(1, 11);
+						td= startingDateStr
+						- var endingDate = JSON.stringify(ucampaign.endingDate);
+						- var endingDateStr = endingDate.substring(1, 11);
+						td= endingDateStr
+						td= ucampaign.address
+						td= ucampaign.couponLimit
+	.popupform#campaignform.animated
 		form(method='POST', action='/campaign/create')
-			label Campaign name: 
-			input(name='campaignname', type='text')
-			label Starting date: 
-			input(id='startdate', name='startdate', type='text')
-			label Ending date: 
-			input(id='enddate', name='enddate', type='text')
-			div#map
-			label Location:
-			input(id='markerpos', name='location', type='text')
-			input(id='address', name='address', type='text')
-			input(type='submit', value='Create')
-			button(id='cancel_btn', onclick='hide_campaign_form()') Cancel
-	.popupform#couponform
+			img.pointer(src='/images/cancel.png', id='cancel_btn', onclick='hide_campaign_form()')
+			.form-group.col-md-12
+				label Campaign name
+				input.form-control(name='campaignname', type='text')
+			.form-group.col-md-6
+				label Starting date 
+				input.form-control(id='startdate', name='startdate', type='text')
+			.form-group.col-md-6
+				label Ending date
+				input.form-control(id='enddate', name='enddate', type='text')
+			.form-group.col-md-6
+				label Location
+				input(id='markerpos', name='location', type='text')
+				input.form-control(id='address', name='address', type='text')
+			.form-group.col-md-6#mapformgroup
+				div#map
+			.form-group.center.col-md-12
+				input.btn(type='submit', value='Create')
+	.popupform#couponform.animated
 		form#addcouponform(method='POST', enctype='multipart/form-data')
+			img.pointer(src='/images/cancel.png', id='coupon_cancel_btn', onclick='hide_coupon_form()')
 			label Picture: 
 			input(name='picture', type='file')
 			label Expiry date: 
@@ -85,7 +129,6 @@ block content
 			label Description:
 			input(name='description', type='text')
 			input(type='submit', value='Add')
-			button(id='coupon_cancel_btn', onclick='hide_coupon_form()') Cancel
 
 block js
 	script(src="https://unpkg.com/js-datepicker")

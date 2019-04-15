@@ -31,26 +31,32 @@ function initMap(position) {
 }
 
 function show_campaign_form() {
+	animateCSS('#campaignform','bounceInUp');
 	document.getElementById('campaignform').style.display = "block";
 	document.getElementById("cancel_btn").addEventListener("click", function(e){
 		e.preventDefault();
 	});
+	document.getElementById('frame').classList.add("blur-filter");
 }
 
 function hide_campaign_form() {
 	document.getElementById('campaignform').style.display = "none";
+	document.getElementById('frame').classList.remove("blur-filter");
 }
 
 function show_coupon_form(campaignid) {
+	animateCSS('#couponform','bounceInUp');
 	document.getElementById('couponform').style.display = "block";
 	document.getElementById("coupon_cancel_btn").addEventListener("click", function(e){
 		e.preventDefault();
 	});
 	document.getElementById('addcouponform').action = "/campaign/addcoupon/"+campaignid;
+	document.getElementById('frame').classList.add("blur-filter");
 }
 
 function hide_coupon_form() {
 	document.getElementById('couponform').style.display = "none";
+	document.getElementById('frame').classList.remove("blur-filter");
 }
 
 const startdate_picker = datepicker('#startdate', {
@@ -94,4 +100,18 @@ function tabnav(e, tab){
 	}
 	document.getElementById(tab).style.display = "block";
 	e.currentTarget.classList.add("active");
+}
+
+function animateCSS(element, animationName, callback) {
+    const node = document.querySelector(element)
+    node.classList.add('animated', animationName)
+
+    function handleAnimationEnd() {
+        node.classList.remove('animated', animationName)
+        node.removeEventListener('animationend', handleAnimationEnd)
+
+        if (typeof callback === 'function') callback()
+    }
+
+    node.addEventListener('animationend', handleAnimationEnd)
 }

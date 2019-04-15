@@ -5,20 +5,60 @@ table, .card-body{
 }
 
 .popupform{
-	width: 60%;
-	height: 50%;
-	opacity: .75;
-	top: 25%;
-	left: 20%;
+	width: 74%;
+	height: 75%;
+	opacity: .8;
+	top: 15%;
+	left: 23%;
 	display: none;
 	position: fixed;
-	background-color: orange;
+	background-color: #fde8a0;
 	overflow: auto;
+	border-radius: 20px;
+	overflow: inherit;
+}
+
+.center{
+	text-align: center;
+}
+
+form{
+	padding: 4%;
+}
+
+form img{
+	height: 30px;
+	width: auto;
+	position: absolute;
+	right: 0;
+	top: 0;
+	z-index: 99;
+}
+
+input.btn{
+	width: 100px;
+	border-radius: 10px !important;
+}
+
+.opsbtn{
+	width: 23px;
+	height: auto;
+}
+
+.pointer{
+	cursor: pointer;
 }
 
 #map{
-	height: 300px;
-	width: 500px;
+	position: absolute;
+	height: 100% !important;
+	width: 100% !important;
+}
+
+#mapformgroup{
+	position: relative;
+	width: 47%;
+	padding-bottom: 25%;
 }
 
 .card-header{
@@ -56,12 +96,19 @@ a.nav-link:hover{
 }
 
 #campaignbtntab{
-	padding-left: 60%;
+	float: right;
+	margin-top: 7px;
+	margin-right: 20px;
 }
 
 #newcampaignbtn{
 	display: inline-block;
-	margin-top: 8%;
+	border: none;
+	height: 30px;
+	padding-left: 10px;
+	padding-right: 10px;
+	border-radius: 20px;
+	background: white;
 }
 
 th{
@@ -78,4 +125,12 @@ th{
 
 #current{
 	display: block;
+}
+
+.blur-filter{
+    -webkit-filter: blur(2px);
+    -moz-filter: blur(2px);
+    -o-filter: blur(2px);
+    -ms-filter: blur(2px);
+    filter: blur(2px);
 }

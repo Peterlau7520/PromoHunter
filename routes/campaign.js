@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const multer = require('multer');
+const moment = require('moment');
 
 const storage = multer.diskStorage({
 	destination: function(req, file, cb){
@@ -31,10 +32,35 @@ let Campaign = require('../models/campaign');
 let Coupon = require('../models/coupon');
 
 router.get('/', function(req, res){
+	tdy = moment().format();
 	if(req.session.user){
-		Campaign.find({merchant: req.session.userObjID}, function(err, result){
-			res.render('campaign', {
-				campaigns: result
+		Campaign.find({
+			merchant: req.session.userObjID,
+			startingDate: {
+				$lte: tdy
+			},
+			endingDate: {
+				$gte: tdy
+			}
+		}, function(err, current){
+			Campaign.find({
+				merchant: req.session.userObjID,
+				startingDate: {
+					$gt: tdy
+				}
+			}, function(err, upcoming){
+				Campaign.find({
+					merchant: req.session.userObjID,
+					endingDate: {
+						$lt: tdy
+					}
+				}, function(err, past){
+					res.render('campaign', {
+						past: past,
+						current: current,
+						upcoming: upcoming
+					});
+				});
 			});
 		});
 	}else{
