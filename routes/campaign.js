@@ -33,6 +33,7 @@ let Coupon = require('../models/coupon');
 
 router.get('/', function(req, res){
 	tdy = moment().format();
+	console.log(tdy);
 	if(req.session.user){
 		Campaign.find({
 			merchant: req.session.userObjID,

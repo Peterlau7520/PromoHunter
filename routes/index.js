@@ -3,6 +3,7 @@ var router = express.Router();
 var assert = require('assert');
 
 let Merchant = require('../models/merchant');
+let MerchantInfo = require('../models/merchantInfo');
 let Campaign = require('../models/campaign');
 let Coupon = require('../models/coupon');
 let User = require('../models/user');
@@ -10,7 +11,7 @@ let User = require('../models/user');
 /* GET login page. */
 router.get('/', function(req, res, next) {
 	if(req.session.user){
-		res.render('main');
+		res.redirect('/main');
   	}else{
   		res.render('index');
   	}
@@ -34,7 +35,17 @@ router.post('/', function(req, res){
 
 router.get('/main', function(req, res){
 	if(req.session.user){
-		res.render('main');
+		MerchantInfo.find({
+			merchantName: req.session.user
+		}, {
+			_id: 0,
+			logo: 1
+		}, function(err, result){
+			if(result.length > 0){
+				req.session.logo = result[0].logo
+			}
+			res.render('main');
+		});
 	}else{
 		res.redirect('/');
 	}
@@ -88,16 +99,20 @@ router.post('/geospatial', function(req, res){
 });
 
 router.get('/coupon', function(req, res){
-	merchantid = req.session.userObjID;
-	Coupon.find({
-		merchant: merchantid
-	}, function(err, result){
-		if(err){
-			console.log(err);
-		}else{
-			res.render('coupon', {coupons: result});
-		}
-	});
+	if(req.session.user){
+		merchantid = req.session.userObjID;
+		Coupon.find({
+			merchant: merchantid
+		}, function(err, result){
+			if(err){
+				console.log(err);
+			}else{
+				res.render('coupon', {coupons: result});
+			}
+		});
+	}else{
+		res.redirect('/');
+	}
 });
 
 router.get('/savecoupon/:userid/:couponid', function(req, res){

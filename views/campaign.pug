@@ -8,11 +8,11 @@ block content
 	.card.text-center#frame
 		.card-header
 			ul.nav.nav-tabs.card-header-tabs
-				li.nav-item
+				li.nav-item.pointer
 					a.nav-link(onclick="tabnav(event, 'past')") Past
-				li.nav-item
+				li.nav-item.pointer
 					a.nav-link.active(onclick="tabnav(event, 'current')") Current
-				li.nav-item
+				li.nav-item.pointer
 					a.nav-link(onclick="tabnav(event, 'upcoming')") Upcoming
 				li#campaignbtntab
 					button#newcampaignbtn(onclick='show_campaign_form()') + New Campaign
@@ -114,7 +114,7 @@ block content
 			.form-group.col-md-6
 				label Location
 				input(id='markerpos', name='location', type='text')
-				input.form-control(id='address', name='address', type='text')
+				input.form-control(id='address', name='address', type='text', readonly='')
 			.form-group.col-md-6#mapformgroup
 				div#map
 			.form-group.center.col-md-12

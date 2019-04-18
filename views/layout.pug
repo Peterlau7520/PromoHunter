@@ -41,11 +41,11 @@ html
 								img(src='../images/trend.png')
 								span Trend
 						li.sub ACCOUNT
-						a#information(href='')
+						a#information(href='/account')
 							li
 								img(src='../images/information.png')
 								span Information
-						a#password(href='')
+						a#password(href='/account/changepassword')
 							li
 								img(src='../images/password.png')
 								span Change Password
@@ -57,6 +57,12 @@ html
 				.headerbar
 					input#search(type='text')
 					span= "Hi, "+session.user
+					- if(session.logo){
+						- var logo = 'https://promohunter-merchantstation.herokuapp.com/'+session.logo
+					- }else{
+						- var logo = ''
+					- }
+					img(src=logo)
 				.main.bootstrap-iso
 					block content
 		block js

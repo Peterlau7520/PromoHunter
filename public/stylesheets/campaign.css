@@ -138,3 +138,22 @@ th{
     -ms-filter: blur(2px);
     filter: blur(2px);
 }
+
+.card-body{
+	overflow-y: auto;
+}
+
+.card-body::-webkit-scrollbar-track{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	background-color: transparent;
+}
+
+.card-body::-webkit-scrollbar{
+	width: 12px;
+	background-color: transparent;
+}
+
+.card-body::-webkit-scrollbar-thumb{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+	background-color: white !important;
+}

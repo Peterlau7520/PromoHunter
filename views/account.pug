@@ -1,7 +1,42 @@
 extends layout
 
+block head
+	link(rel='stylesheet', href='/stylesheets/account.css')
+
 block content
-  h1 
-    a(href='') Change password
-  h1
-    a(href='') Add store information
+	- if(merchantInfo){
+		
+	- }else{
+		.frame
+			form(method='POST', action='/account', enctype='multipart/form-data')
+				.form-body
+					.form-group.col-md-12
+						h5 You have not yet created your profile. Please fill the form below.
+					.form-group.col-md-6
+						label Merchant Name
+						input.form-control.readonly(type='text', value=session.user, readonly='')
+					.form-group.col-md-6
+						label Logo
+						input(type='file', name='logo')
+					.form-group.col-md-12
+						label Company Description
+						textarea.form-control(rows='5', name='description')
+					.form-group.col-md-4
+						label Picture
+						img#pplus.sign(src='/images/plus.png')
+						img#pminus.sign(src='/images/minus.png')
+						input(type='file', name='picture')
+					.form-group.col-md-8
+						label Caption
+						input.form-control(type='text', name='caption0')
+					.form-group.col-md-12
+						label Store Location
+						img#lplus.sign(src='/images/plus.png')
+						img#lminus.sign(src='/images/minus.png')
+						input.form-control(type='text', name='location0')
+				.bottom
+					input#updatebtn(type='submit', value='Update')
+	- }
+
+block js
+	script(src='/javascripts/account.js')

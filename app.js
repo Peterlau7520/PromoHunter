@@ -39,6 +39,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/coupon_pictures', express.static(path.join(__dirname, 'coupon_pictures')));
+app.use('/merchant_images', express.static(path.join(__dirname, 'merchant_images')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
@@ -62,5 +63,3 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
-
-////hiiiii

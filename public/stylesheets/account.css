@@ -1,0 +1,64 @@
+.frame{
+	width: 100%;
+	height: 100%;
+	background: white;
+	border-radius: 20px;
+}
+
+form{
+	padding: 3%;
+	height: 95%;
+}
+
+.form-body{
+	overflow-y: auto;
+	height: 100%;
+	width: 100%;
+}
+
+.form-body::-webkit-scrollbar-track{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	background-color: transparent;
+}
+
+.form-body::-webkit-scrollbar{
+	width: 12px;
+	background-color: transparent;
+}
+
+.form-body::-webkit-scrollbar-thumb{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+	background-color: white !important;
+}
+
+.bottom{
+	text-align: center;
+	padding-top: 2%;
+}
+
+.hidden{
+	display: none;
+}
+
+.sign{	
+	width: 20px;
+	height: auto;
+	position: absolute;
+	top: -2px;
+}
+
+#pplus{
+	left: 80px;
+}
+
+#pminus{
+	left: 110px;
+}
+
+#lplus{
+	left: 140px;
+}
+
+#lminus{
+	left: 170px;
+}
