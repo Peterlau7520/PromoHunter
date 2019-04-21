@@ -62,3 +62,11 @@ form{
 #lminus{
 	left: 170px;
 }
+
+.pointer{
+	cursor: pointer;
+}
+
+.msg{
+	color: red;
+}

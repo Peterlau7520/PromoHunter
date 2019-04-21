@@ -36,7 +36,6 @@ const upload = multer({
 ]);
 
 router.get('/', function(req, res){
-	console.log(nullObj);
 	if(req.session.user){
 		MerchantInfo.find({
 			merchantName: req.session.user
@@ -57,14 +56,45 @@ router.post('/', function(req, res){
 		upload(req, res, (err) => {
 			if(err){
 				// error handling
-				console.log(err)
+				res.render('account', { msg: 'Failed to upload image(s). Please try again.' });
 			}else{
 				if(JSON.stringify(req.files) === JSON.stringify(nullObj)){
 					// undefined file
-					console.log('undefined file');
+					res.render('account', { msg: 'No image(s) selected.' });
 				}else{
-					console.log(req.files.picture[0]);
-					console.log('OK!');
+					var picNo = req.body.picNo;
+					var locNo = req.body.locNo;
+					var picArray = [];
+					var locArray = [];
+					for(var i=0; i<picNo; i++){
+						picArray.append({
+							path: req.files.pictures[i].path,
+							caption: req.body.caption+(i+1)
+						});
+					}
+					for(var i=0; i<locNo; i++){
+						var address = req.body.location+(i+1);
+						// Geocoding
+						locArray.append({
+							type: 'Point',
+							coordinates: '',
+							typedAddress: address
+						});
+					}
+					var newMerchantInfo = new MerchantInfo({
+						merchantName: req.session.user,
+						logo: req.files.logo.path,
+						description: req.body.description,
+						pictures: picArray,
+						location: locArray
+					});
+					newMerchantInfo.save(function(err){
+						if(err){
+							res.render('account', { msg: 'Failed to save profile. Please try again.' });
+						}else{
+							res.redirect('/account');
+						}
+					});
 				}
 			}
 		});

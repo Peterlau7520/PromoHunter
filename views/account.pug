@@ -12,6 +12,7 @@ block content
 				.form-body
 					.form-group.col-md-12
 						h5 You have not yet created your profile. Please fill the form below.
+						h5.msg #{msg}
 					.form-group.col-md-6
 						label Merchant Name
 						input.form-control.readonly(type='text', value=session.user, readonly='')
@@ -21,19 +22,21 @@ block content
 					.form-group.col-md-12
 						label Company Description
 						textarea.form-control(rows='5', name='description')
-					.form-group.col-md-4
+					.form-group.col-md-4#pic1
 						label Picture
-						img#pplus.sign(src='/images/plus.png')
-						img#pminus.sign(src='/images/minus.png')
+						img#pplus.sign.pointer(src='/images/plus.png', onclick='add_picture()')
+						img#pminus.sign.pointer(src='/images/minus.png', onclick='delete_picture()')
 						input(type='file', name='picture')
 					.form-group.col-md-8
 						label Caption
-						input.form-control(type='text', name='caption0')
-					.form-group.col-md-12
+						input.form-control(type='text', name='caption1')
+					.form-group.col-md-12#loc1
 						label Store Location
-						img#lplus.sign(src='/images/plus.png')
-						img#lminus.sign(src='/images/minus.png')
-						input.form-control(type='text', name='location0')
+						img#lplus.sign.pointer(src='/images/plus.png', onclick='add_location()')
+						img#lminus.sign.pointer(src='/images/minus.png', onclick='delete_location()')
+						input.form-control(type='text', name='location1')
+					input.hidden(type='text', id='picNo', name='picNo', value='1')
+					input.hidden(type='text', id='locNo', name='locNo', value='1')
 				.bottom
 					input#updatebtn(type='submit', value='Update')
 	- }

@@ -101,13 +101,54 @@ router.post('/geospatial', function(req, res){
 router.get('/coupon', function(req, res){
 	if(req.session.user){
 		merchantid = req.session.userObjID;
+		// Populate campaign
 		Coupon.find({
 			merchant: merchantid
-		}, function(err, result){
+		}).populate('campaign').exec(function(err, result){
 			if(err){
 				console.log(err);
 			}else{
 				res.render('coupon', {coupons: result});
+			}
+		});
+	}else{
+		res.redirect('/');
+	}
+});
+
+router.get('/searchcoupon', function(req, res){
+	if(req.session.user){
+		merchantid = req.session.userObjID;
+		var key = req.query.search;
+		Coupon.find({
+			merchant: merchantid
+		}).populate('campaign').exec(function(err, result){
+			if(err){
+				console.log(err);
+			}else{
+				if(req.query.search){
+					var couponArray = [];
+					result.forEach(function(filter){
+						if(JSON.stringify(filter.description).includes(key) || JSON.stringify(filter.campaign.campaignName).includes(key)){
+							couponArray.push(filter);
+						}
+					});
+				}else{
+					couponArray = result
+				}
+				var reshtml = "";
+				couponArray.forEach(function(coupon){
+					reshtml += "<div class='col-md-3'><div class='card'><img class='card-img-top' src='https://promohunter-merchantstation.herokuapp.com/";
+					reshtml += coupon.picture;
+					reshtml += "' /><div class='card-body'><h4 class='card-title'>";
+					reshtml += coupon.campaign.campaignName;
+					reshtml += "</h4><p class='card-text'>";
+					reshtml += coupon.description;
+					reshtml += "</p></div><div class='card-footer'><small class='text-muted'>Expires on ";
+					reshtml += JSON.stringify(coupon.expiryDate).substring(1, 11);
+					reshtml += "</small></div></div></div>";
+				});
+				res.send(reshtml);
 			}
 		});
 	}else{

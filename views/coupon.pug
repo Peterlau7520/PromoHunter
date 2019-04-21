@@ -5,17 +5,17 @@ block head
 
 block content
 	form
-		input.form-control(type='text', placeholder='Search coupons...')
-	.card-columns
+		input.form-control#searchbox(type='text', placeholder='Search coupons...')
+	.card-columns#searchresult
 		for coupon, c in coupons
 			.col-md-3
 				.card
 					img.card-img-top(src='https://promohunter-merchantstation.herokuapp.com/'+coupon.picture)
 					.card-body
-						h5.card-title= coupon.campaign
+						h5.card-title= coupon.campaign.campaignName
 						p.card-text= coupon.description
 					.card-footer
-						small.text-muted= coupon.expiryDate
-
+						- var expiryDate = "Expires on "+JSON.stringify(coupon.expiryDate).substring(1, 11);
+						small.text-muted= expiryDate
 block js
-	
+	script(src='/javascripts/coupon.js')
