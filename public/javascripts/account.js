@@ -1,14 +1,16 @@
 $picNo = 1;
 $locNo = 1;
+$('#picNo').val($picNo);
+$('#locNo').val($locNo);
 
 function add_picture(){
 	if($picNo < 5){
 		$e = $('#pic'+$picNo);
 		$picNo = $picNo+1;
 		$row = "<div class='form-group col-md-4' id='pic"+$picNo+"'><input type='file' name='picture' /></div>"+
-		"<div class='form-group col-md-8'><input class='form-control' type='text' name='caption"+$picNo+"' /></div>";
+		"<div class='form-group col-md-8'><input class='form-control' type='text' name='caption' /></div>";
 		$e.next().after($row);
-		$('#picNo').value = $picNo;
+		$('#picNo').val($picNo);
 	}
 }
 
@@ -19,7 +21,7 @@ function delete_picture(){
 		$e.remove();
 		$e2.remove();
 		$picNo = $picNo-1;
-		$('#picNo').value = $picNo;
+		$('#picNo').val($picNo);
 	}
 }
 
@@ -28,9 +30,9 @@ function add_location(){
 		$e = $('#loc'+$locNo);
 		$locNo = $locNo+1;
 		$row = "<div class='form-group col-md-12', id='loc"+$locNo+"'><input class='form-control' type='text' "+
-		"name='location"+$locNo+"' />";
+		"name='location' />";
 		$e.after($row);
-		$('#locNo').value = $locNo;
+		$('#locNo').val($locNo);
 	}
 }
 
@@ -39,6 +41,6 @@ function delete_location(){
 		$e = $('#loc'+$locNo);
 		$e.remove();
 		$locNo = $locNo-1;
-		$('#locNo').value = $locNo;
+		$('#locNo').val($locNo);
 	}
 }

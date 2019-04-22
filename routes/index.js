@@ -42,7 +42,7 @@ router.get('/main', function(req, res){
 			logo: 1
 		}, function(err, result){
 			if(result.length > 0){
-				req.session.logo = result[0].logo
+				req.session.logo = result[0].logo;
 			}
 			res.render('main');
 		});

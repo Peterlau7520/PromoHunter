@@ -1,11 +1,14 @@
 var express = require('express');
 var router = express.Router();
 var multer = require('multer');
+var request = require('request');
 
 let MerchantInfo = require('../models/merchantInfo');
 let Merchant = require('../models/merchant');
 
 const nullObj = Object.create(null);
+const apikey = 'AIzaSyBjLzcJetGHFSzSzcI6ivDy9zJSz734Ong';
+const baseurl = 'https://maps.googleapis.com/maps/api/geocode/json?address=';
 
 const storage = multer.diskStorage({
 	destination: function(req, file, cb){
@@ -41,6 +44,7 @@ router.get('/', function(req, res){
 			merchantName: req.session.user
 		}, function(err, result){
 			if(result.length > 0){
+				req.session.logo = result[0].logo;
 				res.render('account', { merchantInfo: result });
 			}else{
 				res.render('account');
@@ -66,35 +70,99 @@ router.post('/', function(req, res){
 					var locNo = req.body.locNo;
 					var picArray = [];
 					var locArray = [];
-					for(var i=0; i<picNo; i++){
-						picArray.append({
-							path: req.files.pictures[i].path,
-							caption: req.body.caption+(i+1)
+					if(picNo == 1){
+						picArray.push({
+							path: req.files.picture[0].path,
+							caption: req.body.caption
 						});
-					}
-					for(var i=0; i<locNo; i++){
-						var address = req.body.location+(i+1);
-						// Geocoding
-						locArray.append({
-							type: 'Point',
-							coordinates: '',
-							typedAddress: address
-						});
-					}
-					var newMerchantInfo = new MerchantInfo({
-						merchantName: req.session.user,
-						logo: req.files.logo.path,
-						description: req.body.description,
-						pictures: picArray,
-						location: locArray
-					});
-					newMerchantInfo.save(function(err){
-						if(err){
-							res.render('account', { msg: 'Failed to save profile. Please try again.' });
-						}else{
-							res.redirect('/account');
+					}else{
+						for(let i=0; i<picNo; i++){
+							picArray.push({
+								path: req.files.picture[i].path,
+								caption: req.body.caption[i]
+							});
 						}
-					});
+					}
+					if(locNo == 1){
+						var address = req.body.location;
+						var url = baseurl + address + "&key=" + apikey;
+						var lng, lat;
+						request(url, function(err, gres, body){
+							if(!err && gres.statusCode == 200){
+								lng = JSON.parse(body).results[0].geometry.location.lng;
+								lat = JSON.parse(body).results[0].geometry.location.lat;
+								locArray.push({
+									type: 'Point',
+									coordinates: [Number(lng), Number(lat)],
+									typedAddress: address
+								});
+								var newMerchantInfo = new MerchantInfo({
+									merchantName: req.session.user,
+									logo: req.files.logo[0].path,
+									description: req.body.description,
+									pictures: picArray,
+									location: locArray
+								});
+								newMerchantInfo.save(function(err){
+									if(err){
+										console.log(err);
+										res.render('account', { msg: 'Failed to save profile. Please try again.' });
+									}else{
+										res.redirect('/account');
+									}
+								});
+							}else{
+								console.log(err);
+							}
+						});
+					}else{
+						for(let i=0; i<locNo; i++){
+							let address = req.body.location[i];
+							var url = baseurl + address + "&key=" + apikey;
+							var lng, lat;
+							var geoPromise = new Promise(function(resolve, reject){
+								request(url, function(err, gres, body){
+									if(!err && gres.statusCode == 200){
+										resolve(JSON.parse(body));
+									}else{
+										reject(err);
+									}
+								});
+							});
+							console.log('outside: ', address);
+							geoPromise.then(function(result){
+								lng = result.results[0].geometry.location.lng;
+								lat = result.results[0].geometry.location.lat;
+								console.log('inside: ', address);
+								locArray.push({
+									type: 'Point',
+									coordinates: [Number(lng), Number(lat)],
+									typedAddress: address
+								});
+								console.log(locArray);
+								if(i == locNo-1){
+									var newMerchantInfo = new MerchantInfo({
+										merchantName: req.session.user,
+										logo: req.files.logo[0].path,
+										description: req.body.description,
+										pictures: picArray,
+										location: locArray
+									});
+									newMerchantInfo.save(function(err){
+										if(err){
+											console.log(err);
+											res.render('account', { msg: 'Failed to save profile. Please try again.' });
+										}else{
+											res.redirect('/account');
+										}
+									});
+								}
+
+							}, function(err){
+								console.log(err);
+							});
+						}
+					}
 				}
 			}
 		});

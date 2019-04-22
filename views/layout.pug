@@ -56,13 +56,12 @@ html
 			.content-container
 				.headerbar
 					input#search(type='text')
-					span= "Hi, "+session.user
+					span= session.user
 					- if(session.logo){
-						- var logo = 'https://promohunter-merchantstation.herokuapp.com/'+session.logo
-					- }else{
-						- var logo = ''
+						//- var logo = 'https://promohunter-merchantstation.herokuapp.com/'+session.logo
+						- var logo = '/'+session.logo
+						img.merchantlogo(src=logo)
 					- }
-					img(src=logo)
 				.main.bootstrap-iso
 					block content
 		block js

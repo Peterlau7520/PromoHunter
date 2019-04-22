@@ -29,14 +29,14 @@ block content
 						input(type='file', name='picture')
 					.form-group.col-md-8
 						label Caption
-						input.form-control(type='text', name='caption1')
+						input.form-control(type='text', name='caption')
 					.form-group.col-md-12#loc1
 						label Store Location
 						img#lplus.sign.pointer(src='/images/plus.png', onclick='add_location()')
 						img#lminus.sign.pointer(src='/images/minus.png', onclick='delete_location()')
-						input.form-control(type='text', name='location1')
-					input.hidden(type='text', id='picNo', name='picNo', value='1')
-					input.hidden(type='text', id='locNo', name='locNo', value='1')
+						input.form-control(type='text', name='location')
+					input.hidden(type='text', id='picNo', name='picNo')
+					input.hidden(type='text', id='locNo', name='locNo')
 				.bottom
 					input#updatebtn(type='submit', value='Update')
 	- }

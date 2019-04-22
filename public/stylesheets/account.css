@@ -68,5 +68,5 @@ form{
 }
 
 .msg{
-	color: red;
+	color: red !important;
 }
