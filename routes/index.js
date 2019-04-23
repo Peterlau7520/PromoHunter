@@ -171,9 +171,9 @@ router.get('/savecoupon/:userid/:couponid', function(req, res){
 		}
 	}, function(err, result){
 		if(err){
-			res.render('couponqr', {msg: "Failed to save"});
+			res.json("Fail");
 		}else{
-			res.render('couponqr', {msg: "Save successfully"});
+			res.json("Success");
 		}
 	});
 });
@@ -181,34 +181,61 @@ router.get('/savecoupon/:userid/:couponid', function(req, res){
 router.get('/couponQR/:userid/:couponid', function(req, res){
 	userid = req.params.userid;
 	couponid = req.params.couponid;
-	User.find({
-		_id: userid,
-		savedCoupons: couponid
-	}, function(err, result, next){
+	res.render('couponqr', {
+		userid: userid,
+		couponid: couponid
+	});
+});
+
+router.post('/validatedQR', function(req, res){
+	userid = req.body.userid;
+	couponid = req.body.couponid;
+
+	Merchant.find({
+		password: req.body.merchantpw
+	}, function(err, merchantid){
 		if(err){
-			res.render('couponqr', {msg: "Failed to redeem"});
+			res.render('validatedqr', {msg: "Failed to redeem"});
 		}else{
-			if(result == ""){
-				res.render('couponqr', {msg: "Failed to redeem"});
-			}else{
-				User.findOneAndUpdate({
-					_id: userid,
-					savedCoupons: couponid
-				}, {
-					$push: {
-						redeemedCoupons: couponid
-					},
-					$pull: {
+			Coupon.find({
+				_id: couponid,
+				merchant: merchantid[0]._id
+			}, function(err2, checkedcoupon){
+				if(checkedcoupon.length > 0){
+					User.find({
+						_id: userid,
 						savedCoupons: couponid
-					}
-				}, function(err, result){
-					if(err){
-						res.render('couponqr', {msg: "Failed to redeem"});
-					}else{
-						res.render('couponqr', {msg: "Redeemed successfully"});
-					}
-				});
-			}
+					}, function(err, result, next){
+						if(err){
+							res.render('validatedqr', {msg: "Failed to redeem"});
+						}else{
+							if(result == ""){
+								res.render('validatedqr', {msg: "Failed to redeem"});
+							}else{
+								User.findOneAndUpdate({
+									_id: userid,
+									savedCoupons: couponid
+								}, {
+									$push: {
+										redeemedCoupons: couponid
+									},
+									$pull: {
+										savedCoupons: couponid
+									}
+								}, function(err, result){
+									if(err){
+										res.render('validatedqr', {msg: "Failed to redeem"});
+									}else{
+										res.render('validatedqr', {msg: "Redeemed successfully"});
+									}
+								});
+							}
+						}
+					});
+				}else{
+					res.render('validatedqr', {msg: "Failed to redeem"});
+				}
+			});
 		}
 	});
 });

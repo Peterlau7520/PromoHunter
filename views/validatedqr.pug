@@ -9,9 +9,4 @@ html
 		.center
 			img(src='/images/PromoHunter-LOGO.png')
 		.center
-			form(method='POST', action='/validatedQR')
-				h5 Please enter merchant password...
-				input(type='text', name='merchantpw')
-				input.hidden(type='text', name='userid', value=userid)
-				input.hidden(type='text', name='couponid', value=couponid)
-				input.btn(type='submit', value='Submit')
+			h1 #{msg}

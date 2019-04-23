@@ -2,6 +2,8 @@ var express = require('express');
 var router = express.Router();
 const multer = require('multer');
 const moment = require('moment');
+const { Expo } = require('expo-server-sdk');
+let expo = new Expo();
 
 const storage = multer.diskStorage({
 	destination: function(req, file, cb){
@@ -30,6 +32,7 @@ const upload = multer({
 
 let Campaign = require('../models/campaign');
 let Coupon = require('../models/coupon');
+let User = require('../models/user');
 
 router.get('/', function(req, res){
 	tdy = moment().format();
@@ -92,7 +95,64 @@ router.post('/addcoupon/:campaignid', function(req, res){
 							console.log(err);
 							return;
 						}else{
-							res.redirect('/campaign');
+							//Handling notifications
+
+							let messages = [];
+							var promises = [];
+							var coord = req.body.coordinates;
+							var latlng = coord.split(',');
+							
+							User.find({
+								notificationToken:{
+									$exists: true
+								}
+							}, function(err, result){
+								if(err){
+									console.log(err);
+								}else{
+									console.log('pushToken');
+									promises.push(
+										new Promise((resolve, reject)=>{
+											result.forEach(function(tkn){
+												messages.push({
+													to: tkn.notificationToken,
+													sound: 'default',
+													body: 'This is a test notification',
+													data: { 
+														latitude: latlng[1],
+														longitude: latlng[0]
+													},
+												});
+											});
+											resolve(messages);
+										})
+									);
+									Promise.all(promises).then(function(msg){
+										console.log('msg ', msg);
+										let chunks = expo.chunkPushNotifications(msg[0]);
+										let tickets = [];
+										(async () => {
+											// Send the chunks to the Expo push notification service. There are
+											// different strategies you could use. A simple one is to send one chunk at a
+											// time, which nicely spreads the load out over time:
+											for (let chunk of chunks) {
+												try {
+													let ticketChunk = await expo.sendPushNotificationsAsync(chunk);
+													console.log(ticketChunk);
+													tickets.push(...ticketChunk);
+													// NOTE: If a ticket contains an error code in ticket.details.error, you
+													// must handle it appropriately. The error codes are listed in the Expo
+													// documentation:
+													// https://docs.expo.io/versions/latest/guides/push-notifications#response-format
+												} catch (error) {
+													console.error(error);
+												}
+											}
+										})();
+										res.redirect('/campaign');
+									})
+								}
+							});
 						}
 					});
 				}

@@ -13,7 +13,8 @@ let userSchema = mongoose.Schema({
 	redeemedCoupons: [{
 		type: mongoose.Schema.Types.ObjectId,
 		ref: "Coupon"
-	}]
+	}],
+	notificationToken: String
 });
 
 let User = module.exports = mongoose.model('User', userSchema, 'User')

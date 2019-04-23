@@ -11,7 +11,11 @@ let couponSchema = mongoose.Schema({
 	},
 	expiryDate: Date,
 	picture: String,
-	description: String
+	description: String,
+	comments: [{
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'Comment'
+	}]
 });
 
 let Coupon = module.exports = mongoose.model('Coupon', couponSchema, 'Coupon')

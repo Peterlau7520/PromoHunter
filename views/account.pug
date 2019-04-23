@@ -7,27 +7,40 @@ block content
 	- if(merchantInfo){
 		.frame
 			.info
-				table
+				table.center
 					tr
 						td
-							img(src='')
+							img(src='https://promohunter-merchantstation.herokuapp.com/'+merchantInfo[0].logo)
+					tr
 						td= merchantInfo[0].merchantName
 					tr
-						td Logo
-						td= merchantInfo[0].logo
-					tr
 						td Company Description
+					tr
 						td= merchantInfo[0].description
 					tr
 						td Pictures
-						for p, q in merchantInfo[0].pictures
+					for p, q in merchantInfo[0].pictures
+						tr
 							td= p.path
+						tr
 							td= p.caption
 					tr
 						td Store Location
 						for l, m in merchantInfo[0].location
-							td= l.coordinates
-							td= l.typedAddress
+							tr
+								td= l.coordinates
+							tr
+								td= l.typedAddress
+				#carouselExampleSlidesOnly.carousel.slide(data-ride='carousel')
+					.carousel-inner
+						.carousel-item.active
+							img.d-block.w-100(src='https://promohunter-merchantstation.herokuapp.com/'+merchantInfo[0].logo, alt='...')
+						.carousel-item
+							img.d-block.w-100(src='https://promohunter-merchantstation.herokuapp.com/'+merchantInfo[0].logo, alt='...')
+						.carousel-item
+							img.d-block.w-100(src='https://promohunter-merchantstation.herokuapp.com/'+merchantInfo[0].logo, alt='...')
+
+
 	- }else{
 		.frame
 			form(method='POST', action='/account', enctype='multipart/form-data')

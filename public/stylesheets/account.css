@@ -79,3 +79,7 @@ input.btn{
 	width: 100px;
 	border-radius: 10px !important;
 }
+
+.center{
+	text-align: center;
+}

@@ -56,7 +56,7 @@ block content
 				each ccampaign, c in current
 					tr
 						td
-							img.opsbtn.pointer(src='/images/add.png', onclick='show_coupon_form(\''+ccampaign._id+'\')')
+							img.opsbtn.pointer(src='/images/add.png', onclick='show_coupon_form(\''+ccampaign._id+'\', \''+ccampaign.location.coordinates+'\')')
 							span &nbsp
 							a(href='/coupon?searchkey='+ccampaign.campaignName)
 								img.opsbtn.pointer(src='/images/view.png')
@@ -83,7 +83,7 @@ block content
 				each ucampaign, u in upcoming
 					tr
 						td
-							img.opsbtn.pointer(src='/images/add.png', onclick='show_coupon_form(\''+ucampaign._id+'\')')
+							img.opsbtn.pointer(src='/images/add.png', onclick='show_coupon_form(\''+ucampaign._id+'\', \''+ucampaign.location.coordinates+'\')')
 							span &nbsp
 							a(href='/coupon?searchkey='+ucampaign.campaignName)
 								img.opsbtn.pointer(src='/images/view.png')
@@ -130,6 +130,7 @@ block content
 				textarea.form-control(name='description', type='text', rows='8')
 			.form-group.center.col-md-12
 				input.btn(type='submit', value='Add')
+			input.hidden(type='text', name='coordinates', id='coordinates')
 
 block js
 	script(src="https://unpkg.com/js-datepicker")

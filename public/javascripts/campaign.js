@@ -44,9 +44,10 @@ function hide_campaign_form() {
 	document.getElementById('frame').classList.remove("blur-filter");
 }
 
-function show_coupon_form(campaignid) {
+function show_coupon_form(campaignid, coordinates) {
 	animateCSS('#couponform','bounceInUp');
 	document.getElementById('couponform').style.display = "block";
+	document.getElementById('coordinates').value = coordinates;
 	document.getElementById("coupon_cancel_btn").addEventListener("click", function(e){
 		e.preventDefault();
 	});

@@ -1,7 +1,11 @@
+$("#information li").css("background", "linear-gradient(to right, #f7aa5c 0%, #f7aa5c 5%, #fef2e8 5%, #fef2e8 90%)");
+
 $picNo = 1;
 $locNo = 1;
 $('#picNo').val($picNo);
 $('#locNo').val($locNo);
+
+$('.carousel').carousel();
 
 function add_picture(){
 	if($picNo < 5){
