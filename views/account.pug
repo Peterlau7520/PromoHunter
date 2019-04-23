@@ -5,7 +5,29 @@ block head
 
 block content
 	- if(merchantInfo){
-		
+		.frame
+			.info
+				table
+					tr
+						td
+							img(src='')
+						td= merchantInfo[0].merchantName
+					tr
+						td Logo
+						td= merchantInfo[0].logo
+					tr
+						td Company Description
+						td= merchantInfo[0].description
+					tr
+						td Pictures
+						for p, q in merchantInfo[0].pictures
+							td= p.path
+							td= p.caption
+					tr
+						td Store Location
+						for l, m in merchantInfo[0].location
+							td= l.coordinates
+							td= l.typedAddress
 	- }else{
 		.frame
 			form(method='POST', action='/account', enctype='multipart/form-data')
@@ -38,7 +60,7 @@ block content
 					input.hidden(type='text', id='picNo', name='picNo')
 					input.hidden(type='text', id='locNo', name='locNo')
 				.bottom
-					input#updatebtn(type='submit', value='Update')
+					input#updatebtn.btn(type='submit', value='Update')
 	- }
 
 block js

@@ -1,5 +1,11 @@
 var ajaxObj = new XMLHttpRequest();
 
+var initSearchBoxVal = document.getElementById('searchbox').value;
+
+if(initSearchBoxVal != ''){
+	ajaxRequest();
+}
+
 function ajaxRequest(){
 	var searchbox = document.getElementById('searchbox');
 	ajaxObj.onreadystatechange = ajaxResponse;

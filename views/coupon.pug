@@ -5,7 +5,11 @@ block head
 
 block content
 	form
-		input.form-control#searchbox(type='text', placeholder='Search coupons...')
+		- if(searchkey){
+			input.form-control#searchbox(type='text', placeholder='Search coupons...', value=searchkey)
+		- }else{
+			input.form-control#searchbox(type='text', placeholder='Search coupons...')
+		- }
 	.card-columns#searchresult
 		for coupon, c in coupons
 			.col-md-3

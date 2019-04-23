@@ -108,7 +108,11 @@ router.get('/coupon', function(req, res){
 			if(err){
 				console.log(err);
 			}else{
-				res.render('coupon', {coupons: result});
+				if(req.query.searchkey){
+					res.render('coupon', {coupons: result, searchkey: req.query.searchkey});
+				}else{
+					res.render('coupon', {coupons: result});
+				}
 			}
 		});
 	}else{

@@ -30,7 +30,8 @@ block content
 				each pcampaign, p in past
 					tr
 						td
-							img.opsbtn.pointer(src='/images/view.png')
+							a(href='/coupon?searchkey='+pcampaign.campaignName)
+								img.opsbtn.pointer(src='/images/view.png')
 							span &nbsp
 						td= pcampaign.campaignName
 						- var startingDate = JSON.stringify(pcampaign.startingDate);
@@ -57,10 +58,8 @@ block content
 						td
 							img.opsbtn.pointer(src='/images/add.png', onclick='show_coupon_form(\''+ccampaign._id+'\')')
 							span &nbsp
-							img.opsbtn.pointer(src='/images/delete.png')
-							span &nbsp
-							img.opsbtn.pointer(src='/images/view.png')
-							span &nbsp
+							a(href='/coupon?searchkey='+ccampaign.campaignName)
+								img.opsbtn.pointer(src='/images/view.png')
 						td= ccampaign.campaignName
 						- var startingDate = JSON.stringify(ccampaign.startingDate);
 						- var startingDateStr = startingDate.substring(1, 11);
@@ -86,10 +85,8 @@ block content
 						td
 							img.opsbtn.pointer(src='/images/add.png', onclick='show_coupon_form(\''+ucampaign._id+'\')')
 							span &nbsp
-							img.opsbtn.pointer(src='/images/delete.png')
-							span &nbsp
-							img.opsbtn.pointer(src='/images/view.png')
-							span &nbsp
+							a(href='/coupon?searchkey='+ucampaign.campaignName)
+								img.opsbtn.pointer(src='/images/view.png')
 						td= ucampaign.campaignName
 						- var startingDate = JSON.stringify(ucampaign.startingDate);
 						- var startingDateStr = startingDate.substring(1, 11);
@@ -122,13 +119,17 @@ block content
 	.popupform#couponform.animated
 		form#addcouponform(method='POST', enctype='multipart/form-data')
 			img.pointer(src='/images/cancel.png', id='coupon_cancel_btn', onclick='hide_coupon_form()')
-			label Picture: 
-			input(name='picture', type='file')
-			label Expiry date: 
-			input(id='expirydate', name='expirydate', type='text')
-			label Description:
-			input(name='description', type='text')
-			input(type='submit', value='Add')
+			.form-group.col-md-12
+				label Picture: 
+				input(name='picture', type='file')
+			.form-group.col-md-12
+				label Expiry date: 
+				input.form-control(id='expirydate', name='expirydate', type='text')
+			.form-group.col-md-12
+				label Description:
+				textarea.form-control(name='description', type='text', rows='8')
+			.form-group.center.col-md-12
+				input.btn(type='submit', value='Add')
 
 block js
 	script(src="https://unpkg.com/js-datepicker")

@@ -58,8 +58,8 @@ html
 					input#search(type='text')
 					span= session.user
 					- if(session.logo){
-						//- var logo = 'https://promohunter-merchantstation.herokuapp.com/'+session.logo
-						- var logo = '/'+session.logo
+						- var logo = 'https://promohunter-merchantstation.herokuapp.com/'+session.logo
+						//- var logo = '/'+session.logo
 						img.merchantlogo(src=logo)
 					- }
 				.main.bootstrap-iso

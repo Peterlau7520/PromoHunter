@@ -45,6 +45,7 @@ router.get('/', function(req, res){
 		}, function(err, result){
 			if(result.length > 0){
 				req.session.logo = result[0].logo;
+				//results = JSON.stringify(result);
 				res.render('account', { merchantInfo: result });
 			}else{
 				res.render('account');
