@@ -40,6 +40,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/coupon_pictures', express.static(path.join(__dirname, 'coupon_pictures')));
 app.use('/merchant_images', express.static(path.join(__dirname, 'merchant_images')));
+app.use('/charts', express.static(path.join(__dirname, 'charts')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);

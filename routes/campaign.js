@@ -121,7 +121,7 @@ router.post('/addcoupon/:campaignid', function(req, res){
 													data: { 
 														latitude: latlng[1],
 														longitude: latlng[0]
-													},
+													}
 												});
 											});
 											resolve(messages);

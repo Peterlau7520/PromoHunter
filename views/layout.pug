@@ -32,14 +32,16 @@ html
 								img(src='../images/coupon.png')
 								span Coupons
 						li.sub INSIGHT
-						a#performance(href='')
+						a#performance(href='/performance')
 							li
 								img(src='../images/performance.png')
 								span Performance
-						a#trend(href='')
+						- if(ihavemoretime){
+						a#trend(href='trend')
 							li
 								img(src='../images/trend.png')
 								span Trend
+						- }
 						li.sub ACCOUNT
 						a#information(href='/account')
 							li

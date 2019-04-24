@@ -7,40 +7,36 @@ block content
 	- if(merchantInfo){
 		.frame
 			.info
-				table.center
-					tr
-						td
-							img(src='https://promohunter-merchantstation.herokuapp.com/'+merchantInfo[0].logo)
-					tr
-						td= merchantInfo[0].merchantName
-					tr
-						td Company Description
-					tr
-						td= merchantInfo[0].description
-					tr
-						td Pictures
-					for p, q in merchantInfo[0].pictures
+				.col-md-6
+					table.center
 						tr
-							td= p.path
+							td.col-md-2
+								img#merlogo(src='https://promohunter-merchantstation.herokuapp.com/'+merchantInfo[0].logo)
+							td.col-md-10
+								h3= merchantInfo[0].merchantName
 						tr
-							td= p.caption
-					tr
-						td Store Location
-						for l, m in merchantInfo[0].location
-							tr
-								td= l.coordinates
-							tr
-								td= l.typedAddress
-				#carouselExampleSlidesOnly.carousel.slide(data-ride='carousel')
-					.carousel-inner
-						.carousel-item.active
-							img.d-block.w-100(src='https://promohunter-merchantstation.herokuapp.com/'+merchantInfo[0].logo, alt='...')
-						.carousel-item
-							img.d-block.w-100(src='https://promohunter-merchantstation.herokuapp.com/'+merchantInfo[0].logo, alt='...')
-						.carousel-item
-							img.d-block.w-100(src='https://promohunter-merchantstation.herokuapp.com/'+merchantInfo[0].logo, alt='...')
-
-
+							td.left.subtitle(colspan='2') Company Description
+						tr
+							td(colspan='2')= merchantInfo[0].description
+						tr
+							td.left.subtitle(colspan='2') Store Location
+							for l, m in merchantInfo[0].location
+								tr
+									td.left(colspan='2')= (m+1)+'. '+l.typedAddress
+				.col-md-6#second
+					.slideshow-container
+						for p, q in merchantInfo[0].pictures
+							.mySlides.center
+								.numbertext 1 / 3
+								img(src=p.path)
+								.text=p.caption
+						a.prev(onclick='plusSlides(-1)') ❮
+						a.next(onclick='plusSlides(1)') ❯
+					br
+					div(style='text-align:center')
+						span.dot(onclick='currentSlide(1)')
+						span.dot(onclick='currentSlide(2)')
+						span.dot(onclick='currentSlide(3)')
 	- }else{
 		.frame
 			form(method='POST', action='/account', enctype='multipart/form-data')

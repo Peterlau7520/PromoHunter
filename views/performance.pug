@@ -1,0 +1,36 @@
+extends layout
+
+block head
+	link(rel='stylesheet' , href='stylesheets/performance.css')
+
+block content
+	.grid-container
+		.item1
+			.frame.center
+				table
+					tr
+						td.heading Coupon Distributed
+						td.figure #{noOfSaved}&nbsp&nbsp&nbsp&nbsp&nbsp
+		.item2
+			.frame.center
+				table
+					tr
+						td.heading Coupon Used
+						td.figure #{noOfRedeemed}&nbsp&nbsp&nbsp&nbsp&nbsp
+		.item3
+			.frame.center
+				table
+					tr
+						td.heading Coupon Remained
+						td.figure #{noOfRemaining}&nbsp&nbsp&nbsp&nbsp&nbsp
+		.item4
+			.frame.center
+				p.heading Top Saved Coupons
+				img(src='/charts/topsavedcrop.png')
+		.item5
+			.frame.center
+				p.heading Top Redeemed Coupons
+				img(src='/charts/topredeemedcrop.png')
+
+block js
+	script(src='/javascripts/performance.js')

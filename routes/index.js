@@ -1,6 +1,12 @@
 var express = require('express');
 var router = express.Router();
 var assert = require('assert');
+var mongoose = require('mongoose');
+var plotly = require('plotly')('lauwaiyuk', 'cnqVKsutPIWYS3tnz0xV');
+var fs = require('fs');
+const sharp = require('sharp');
+const { Expo } = require('expo-server-sdk');
+let expo = new Expo();
 
 let Merchant = require('../models/merchant');
 let MerchantInfo = require('../models/merchantInfo');
@@ -160,6 +166,224 @@ router.get('/searchcoupon', function(req, res){
 	}
 });
 
+router.get('/performance', function(req, res){
+	if(req.session.user){
+		var promises = [];
+		/*User.aggregate([{
+			$group:{
+				_id: null,
+				savedCoupons:{
+					$sum: { $size: { "$ifNull": [ "$savedCoupons", [] ] } }
+				},
+				redeemedCoupons:{
+					$sum: { $size: { "$ifNull": [ "$redeemedCoupons", [] ] } }
+				}
+			}
+		}], function(err, couponNo){
+			if(err){
+				console.log(err);
+			}else{
+				console.log(couponNo);
+			}
+		});*/
+		User.find({
+			redeemedCoupons:{
+				$ne: []
+			}
+		}, {
+			_id: 0,
+			redeemedCoupons: 1
+		}).populate({
+			path: 'redeemedCoupons',
+			match: {
+				merchant: req.session.userObjID
+			},
+			select: '_id campaign',
+			populate: {
+				path: 'campaign',
+				select: 'campaignName -_id'
+			}
+		}).exec(function(err, redeem){
+			if(err){
+				console.log(err);
+			}else{
+				User.find({
+					savedCoupons:{
+						$ne: []
+					}
+				}, {
+					_id: 0,
+					savedCoupons: 1
+				}).populate({
+					path: 'savedCoupons',
+					match: {
+						merchant: req.session.userObjID
+					},
+					select: '_id campaign',
+					populate: {
+						path: 'campaign',
+						select: 'campaignName -_id'
+					}
+				}).exec(function(err, save){
+					if(err){
+						console.log(err);
+					}else{
+						promises.push(
+							new Promise((resolve, reject)=>{
+								var couponNo = [0, 0];
+								var savedMap = new Map();
+								var redeemedMap = new Map();
+								redeem.forEach(function(r){
+									couponNo[0] += r.redeemedCoupons.length;
+									r.redeemedCoupons.forEach(function(rc){
+										if(redeemedMap.get(rc.campaign.campaignName) == undefined){
+											redeemedMap.set(rc.campaign.campaignName, 1);
+										}else{
+											redeemedMap.set(rc.campaign.campaignName, redeemedMap.get(rc.campaign.campaignName)+1);
+										}
+									});
+								});
+								save.forEach(function(s){
+									couponNo[1] += s.savedCoupons.length;
+									s.savedCoupons.forEach(function(sc){
+										if(savedMap.get(sc.campaign.campaignName) == undefined){
+											savedMap.set(sc.campaign.campaignName, 1);
+										}else{
+											savedMap.set(sc.campaign.campaignName, savedMap.get(sc.campaign.campaignName)+1);
+										}
+									});
+								});
+								couponNo.push(redeemedMap);
+								couponNo.push(savedMap);
+								resolve(couponNo);
+							})
+						);
+						Promise.all(promises).then(function(couponNo){
+							var redeemed = couponNo[0][0];
+							var saved = couponNo[0][1];
+							var redeemedMap = couponNo[0][2];
+							var savedMap = couponNo[0][3];
+							console.log(couponNo);
+							Campaign.aggregate([{
+								$match:{
+									merchant: new mongoose.Types.ObjectId(req.session.userObjID)
+								}
+							}, {
+								$group:{
+									_id: null,
+									remain:{
+										$sum: "$couponLimit"
+									}
+								}
+							}], function(err, remaining){
+								if(err){
+									console.log(err);
+								}else{
+									var trace1 = {
+										x: [],
+										y: [],
+										type: "bar"
+									};
+									var trace2 = {
+										x: [],
+										y: [],
+										type: "bar"
+									};
+									if(redeemedMap.size > 5){
+										const mapSort = new Map([...redeemedMap.entries()].sort((a, b) => b[1] - a[1]));
+										var count = 0;
+										for(var [k, v] of mapSort){
+											if(count < 5){
+												trace1.x.push(k);
+												trace1.y.push(v);
+												count = count + 1;
+											}else{
+												break;
+											}
+										}
+									}else{
+										for(var [k, v] of redeemedMap){
+											trace1.x.push(k);
+											trace1.y.push(v);
+										}
+									}
+									if(savedMap.size > 5){
+										const mapSort = new Map([...savedMap.entries()].sort((a, b) => b[1] - a[1]));
+										var count = 0;
+										for(var [k, v] of mapSort){
+											if(count < 5){
+												trace2.x.push(k);
+												trace2.y.push(v);
+												count = count + 1;
+											}else{
+												break;
+											}
+										}
+									}else{
+										for(var [k, v] of savedMap){
+											trace2.x.push(k);
+											trace2.y.push(v);
+										}
+									}
+									var figure1 = { 'data': [trace1] };
+									var figure2 = { 'data': [trace2] };
+									var imgOpts = {
+										format: 'png',
+										width: 400,
+										height: 500
+									};
+									plotly.getImage(figure1, imgOpts, function (error, imageStream) {
+										if (error) return console.log (error);
+										var fileStream = fs.createWriteStream('./charts/topsaved.png');
+										imageStream.pipe(fileStream);
+									});
+									plotly.getImage(figure2, imgOpts, function (error, imageStream) {
+										if (error) return console.log (error);
+										var fileStream = fs.createWriteStream('./charts/topredeemed.png');
+										imageStream.pipe(fileStream);
+									});
+
+									sharp('./charts/topsaved.png').extract({ width: 340, height: 420, left: 40, top: 60 }).toFile('./charts/topsavedcrop.png')
+									.then(function(new_file_info) {
+										console.log("Image cropped and saved");
+									})
+									.catch(function(err) {
+										console.log("An error occured");
+									});
+
+									sharp('./charts/topredeemed.png').extract({ width: 340, height: 420, left: 40, top: 60 }).toFile('./charts/topredeemedcrop.png')
+									.then(function(new_file_info) {
+										console.log("Image cropped and saved");
+									})
+									.catch(function(err) {
+										console.log("An error occured");
+									});
+
+									res.render('performance', {
+										noOfRedeemed: redeemed,
+										noOfSaved: redeemed+saved,
+										noOfRemaining: remaining[0].remain
+									});
+								}
+							});
+						});
+					}
+				});
+			}
+		});
+	}else{
+		res.redirect('/');
+	}
+});
+
+router.get('/trend', function(req, res){
+	if(req.session.user){
+		res.render('trend');
+	}else{
+		res.redirect('/');
+	}
+});
+
 router.get('/savecoupon/:userid/:couponid', function(req, res){
 	userid = req.params.userid;
 	couponid = req.params.couponid;
@@ -173,7 +397,27 @@ router.get('/savecoupon/:userid/:couponid', function(req, res){
 		if(err){
 			res.json("Fail");
 		}else{
-			res.json("Success");
+			Coupon.find({
+				_id: couponid
+			}, function(err2, result2){
+				if(err2){
+					res.json("Fail");
+				}else{
+					Campaign.findOneAndUpdate({
+						_id: result2[0].campaign
+					}, {
+						$inc: {
+							couponLimit: -1
+						}
+					}, function(err3, result3){
+						if(err3){
+							res.json("Fail");
+						}else{
+							res.json("Success");
+						}
+					});
+				}
+			});
 		}
 	});
 });
@@ -205,7 +449,7 @@ router.post('/validatedQR', function(req, res){
 					User.find({
 						_id: userid,
 						savedCoupons: couponid
-					}, function(err, result, next){
+					}, function(err, user, next){
 						if(err){
 							res.render('validatedqr', {msg: "Failed to redeem"});
 						}else{
@@ -226,6 +470,33 @@ router.post('/validatedQR', function(req, res){
 									if(err){
 										res.render('validatedqr', {msg: "Failed to redeem"});
 									}else{
+										let messages = [];
+										messages.push({
+											to: user[0].notificationToken,
+											sound: 'default',
+											body: 'Redeemed successfully',
+											data: { status: "Redeemed successfully" }
+										});
+										let chunks = expo.chunkPushNotifications(messages);
+										let tickets = [];
+										(async () => {
+											// Send the chunks to the Expo push notification service. There are
+											// different strategies you could use. A simple one is to send one chunk at a
+											// time, which nicely spreads the load out over time:
+											for (let chunk of chunks) {
+												try {
+													let ticketChunk = await expo.sendPushNotificationsAsync(chunk);
+													console.log(ticketChunk);
+													tickets.push(...ticketChunk);
+													// NOTE: If a ticket contains an error code in ticket.details.error, you
+													// must handle it appropriately. The error codes are listed in the Expo
+													// documentation:
+													// https://docs.expo.io/versions/latest/guides/push-notifications#response-format
+												} catch (error) {
+													console.error(error);
+												}
+											}
+										})();
 										res.render('validatedqr', {msg: "Redeemed successfully"});
 									}
 								});
