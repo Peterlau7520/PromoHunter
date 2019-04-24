@@ -330,7 +330,7 @@ router.get('/performance', function(req, res){
 									var imgOpts = {
 										format: 'png',
 										width: 400,
-										height: 500
+										height: 400
 									};
 									plotly.getImage(figure1, imgOpts, function (error, imageStream) {
 										if (error) return console.log (error);
