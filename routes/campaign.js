@@ -123,7 +123,8 @@ router.post('/addcoupon/:campaignid', function(req, res){
 													to: tkn.notificationToken,
 													sound: 'default',
 													body: 'This is a test notification',
-													data: { 
+													data: {
+														action: 'newCoupon',
 														latitude: latlng[1],
 														longitude: latlng[0],
 														couponid: newcoupon._id
