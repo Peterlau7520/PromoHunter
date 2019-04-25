@@ -90,7 +90,7 @@ router.post('/addcoupon/:campaignid', function(req, res){
 						expiryDate: req.body.expirydate,
 						description: req.body.description
 					});
-					newcoupon.save(function(err){
+					newcoupon.save(function(err, newcoupon){
 						if(err){
 							console.log(err);
 							return;
@@ -103,9 +103,14 @@ router.post('/addcoupon/:campaignid', function(req, res){
 							var latlng = coord.split(',');
 							
 							User.find({
-								notificationToken:{
-									$exists: true
-								}
+								$and: [
+									{ notificationToken:{
+										$exists: true
+									} },
+									{ notificationToken: {
+										$ne: ""
+									} }
+								]
 							}, function(err, result){
 								if(err){
 									console.log(err);
@@ -120,7 +125,8 @@ router.post('/addcoupon/:campaignid', function(req, res){
 													body: 'This is a test notification',
 													data: { 
 														latitude: latlng[1],
-														longitude: latlng[0]
+														longitude: latlng[0],
+														couponid: newcoupon._id
 													}
 												});
 											});
