@@ -453,7 +453,7 @@ router.post('/validatedQR', function(req, res){
 						if(err){
 							res.render('validatedqr', {msg: "Failed to redeem"});
 						}else{
-							if(result == ""){
+							if(user == ""){
 								res.render('validatedqr', {msg: "Failed to redeem"});
 							}else{
 								User.findOneAndUpdate({
@@ -472,11 +472,12 @@ router.post('/validatedQR', function(req, res){
 									}else{
 										let messages = [];
 										messages.push({
-											to: user.notificationToken,
+											to: user[0].notificationToken,
 											sound: 'default',
 											body: 'Redeemed successfully',
 											data: { status: "Redeemed successfully" }
 										});
+										console.log(messages);
 										let chunks = expo.chunkPushNotifications(messages);
 										let tickets = [];
 										(async () => {
