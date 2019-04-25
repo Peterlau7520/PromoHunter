@@ -476,7 +476,7 @@ router.post('/validatedQR', function(req, res){
 											to: user[0].notificationToken,
 											sound: 'default',
 											body: 'Redeemed successfully',
-											data: { status: "Redeemed successfully" }
+											data: { status: "Redeemed successfully", action: "redeemCoupon" }
 										});
 										console.log(messages);
 										let chunks = expo.chunkPushNotifications(messages);
