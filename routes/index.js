@@ -446,6 +446,7 @@ router.post('/validatedQR', function(req, res){
 				merchant: merchantid[0]._id
 			}, function(err2, checkedcoupon){
 				if(checkedcoupon.length > 0){
+					console.log(merchantid);
 					User.find({
 						_id: userid,
 						savedCoupons: couponid
