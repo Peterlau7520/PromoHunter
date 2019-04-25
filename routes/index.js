@@ -472,7 +472,7 @@ router.post('/validatedQR', function(req, res){
 									}else{
 										let messages = [];
 										messages.push({
-											to: user[0].notificationToken,
+											to: user.notificationToken,
 											sound: 'default',
 											body: 'Redeemed successfully',
 											data: { status: "Redeemed successfully" }
