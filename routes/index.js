@@ -231,7 +231,6 @@ router.get('/performance', function(req, res){
 						promises.push(
 							new Promise((resolve, reject)=>{
 								var couponNo = [0, 0];
-								var savedMap = new Map();
 								var redeemedMap = new Map();
 								redeem.forEach(function(r){
 									couponNo[0] += r.redeemedCoupons.length;
@@ -243,6 +242,7 @@ router.get('/performance', function(req, res){
 										}
 									});
 								});
+								var savedMap = new Map(redeemedMap);
 								save.forEach(function(s){
 									couponNo[1] += s.savedCoupons.length;
 									s.savedCoupons.forEach(function(sc){
