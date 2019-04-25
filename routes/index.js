@@ -384,9 +384,9 @@ router.get('/trend', function(req, res){
 	}
 });
 
-router.get('/savecoupon/:userid/:couponid', function(req, res){
-	userid = req.params.userid;
-	couponid = req.params.couponid;
+router.post('/savecoupon', function(req, res){
+	userid = req.body.userid;
+	couponid = req.body.couponid;
 	User.findOneAndUpdate({
 		_id: userid
 	}, {
@@ -395,13 +395,13 @@ router.get('/savecoupon/:userid/:couponid', function(req, res){
 		}
 	}, function(err, result){
 		if(err){
-			res.json("Fail");
+			res.json("failed");
 		}else{
 			Coupon.find({
 				_id: couponid
 			}, function(err2, result2){
 				if(err2){
-					res.json("Fail");
+					res.json("failed");
 				}else{
 					Campaign.findOneAndUpdate({
 						_id: result2[0].campaign
@@ -411,9 +411,9 @@ router.get('/savecoupon/:userid/:couponid', function(req, res){
 						}
 					}, function(err3, result3){
 						if(err3){
-							res.json("Fail");
+							res.json("failed");
 						}else{
-							res.json("Success");
+							res.json("success");
 						}
 					});
 				}
