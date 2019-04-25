@@ -334,12 +334,12 @@ router.get('/performance', function(req, res){
 									};
 									plotly.getImage(figure1, imgOpts, function (error, imageStream) {
 										if (error) return console.log (error);
-										var fileStream = fs.createWriteStream('./charts/topsaved.png');
+										var fileStream = fs.createWriteStream('./charts/topredeemed.png');
 										imageStream.pipe(fileStream);
 									});
 									plotly.getImage(figure2, imgOpts, function (error, imageStream) {
 										if (error) return console.log (error);
-										var fileStream = fs.createWriteStream('./charts/topredeemed.png');
+										var fileStream = fs.createWriteStream('./charts/topsaved.png');
 										imageStream.pipe(fileStream);
 									});
 
